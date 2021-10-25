@@ -59,6 +59,6 @@ public class PlayerMovement : MonoBehaviour
         // set vector of transform directly
         transform.up = direction;
         */
-
+        //test comment to test git
     }
 }
