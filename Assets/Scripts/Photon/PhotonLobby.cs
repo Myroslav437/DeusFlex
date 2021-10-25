@@ -19,14 +19,16 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Trying to connect to the Master server");
         PhotonNetwork.ConnectUsingSettings();   //Connect to the Master photon server
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log("Player has connected to the Photon Master server");
-        joinButton.SetActive(true);
+        PhotonNetwork.AutomaticallySyncScene = true;
 
+        joinButton.SetActive(true);
         base.OnConnectedToMaster();
     }
 
@@ -64,11 +66,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom("room" + randomRoomName, roomOps);
     }
 
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Joined the " + PhotonNetwork.CurrentRoom.Name);
-        base.OnJoinedRoom();
-    }
+
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
