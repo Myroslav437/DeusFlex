@@ -21,6 +21,7 @@ public class PhotonPlayer : MonoBehaviour
             int spIdx = PhotonRoom.room.myNumberInRoom % GameSetup.GS.spawnPoints.Length;
             Transform sp = GameSetup.GS.spawnPoints[spIdx];
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), sp.position, sp.rotation, 0);
+
         }
     }
 
