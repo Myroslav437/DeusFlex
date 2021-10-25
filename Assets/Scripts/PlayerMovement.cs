@@ -60,5 +60,7 @@ public class PlayerMovement : MonoBehaviour
         transform.up = direction;
         */
         //test comment to test git
+        //git status on my laptop is up to date , even though i changed the branch and file on other computer
+
     }
 }
