@@ -14,8 +14,6 @@ public class GameSetup : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("GameSetup enabeled");
-
         if (GameSetup.GS == null) {
             GameSetup.GS = this;
         }
