@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed;
     public Animator anim;
     public Transform modelRef;
+    public Transform trnsfrm;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GameObject.Find("model").GetComponent<Animator>();
         modelRef = GameObject.Find("model").transform;
+
     }
 
     // Update is called once per frame
@@ -45,18 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
         anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
-        //This is a bad way of implementing sprite mirroring on direction
-
-        if (rb.velocity.x > 0)
-        {
-            modelRef.transform.localScale = new Vector3(1, 1, -1);
-
-        }
-        else
-        {
-            modelRef.transform.localScale = new Vector3(1, 1, 1);
-            //rendRef.flipX = false;
-        }
+  
     }
 
     void BasicRotation()
