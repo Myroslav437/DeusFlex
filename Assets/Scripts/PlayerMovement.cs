@@ -9,13 +9,16 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public float movementSpeed;
     public float rotationSpeed;
-    
+    public Animator anim;
+    public Transform modelRef;
 
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GameObject.Find("model").GetComponent<Animator>();
+        modelRef = GameObject.Find("model").transform;
     }
 
     // Update is called once per frame
@@ -34,27 +37,26 @@ public class PlayerMovement : MonoBehaviour
 
     void BasicMovement() 
     {
+       //Needs formatting
+
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+        float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
+
 
         rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
+        anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
+        //This is a bad way of implementing sprite mirroring on direction
 
-       // if (Input.GetKey(KeyCode.W)) {
-       //    // rb.Move(transform.up * movementSpeed * Time.deltaTime);
-       //     rb.AddForce(Vector2.up * movementSpeed * Time.deltaTime);
-       // }
-       // if (Input.GetKey(KeyCode.A)) {
-       //    // rb.Move(-transform.right * movementSpeed * Time.deltaTime);
-       //     rb.AddForce(Vector2.left * movementSpeed * Time.deltaTime);
-       // }
-       // if (Input.GetKey(KeyCode.S)) {
-       //    //rb.Move(-transform.up * movementSpeed * Time.deltaTime);
-       //     rb.AddForce(Vector2.down * movementSpeed * Time.deltaTime);
-       // }
-       // if (Input.GetKey(KeyCode.D)) {
-       //   //  rb.Move(transform.right * movementSpeed * Time.deltaTime);
-       //     rb.AddForce(Vector2.right * movementSpeed * Time.deltaTime);
-       // }
+        if (rb.velocity.x > 0)
+        {
+            modelRef.transform.localScale = new Vector3(1, 1, -1);
 
+        }
+        else
+        {
+            modelRef.transform.localScale = new Vector3(1, 1, 1);
+            //rendRef.flipX = false;
+        }
     }
 
     void BasicRotation()
