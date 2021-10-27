@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/StartScene.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/MultyPlayerScene.unity
+    path: Assets/Scenes/WatingRoom.unity
+    guid: b8caabcd96b4d7b448bf3330874d5fa8
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
     guid: 425c549a84d724a48ae6b3f0724c2ddb
   m_configObjects: {}

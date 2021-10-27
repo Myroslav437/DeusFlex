@@ -39,6 +39,10 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPC_SetTimer
+  - RPC_UpdateNicks
+  - PRC_PlayerNicknamesSet
+  - RPC_PlayerCountUpdate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

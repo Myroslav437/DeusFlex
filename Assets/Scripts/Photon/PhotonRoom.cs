@@ -1,17 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     public static PhotonRoom room;
     private PhotonView PV;
+    public InputField nicknameInput;
 
-    public int multiplayerScene;
+    public int waitScene;
+    public int gameScene;
     public int currentScene;
 
     Player[] photonPlayers;
@@ -58,43 +60,69 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
-        PhotonNetwork.NickName = myNumberInRoom.ToString();
+        PhotonNetwork.NickName = GetNickName();
 
-        if (!PhotonNetwork.IsMasterClient)  {
+        if (!PhotonNetwork.IsMasterClient) {
             return;
         }
 
         StartGame();
     }
 
-    void StartGame() 
-    {
-        Debug.Log("Loading Level " + multiplayerScene.ToString());
-        PhotonNetwork.LoadLevel(multiplayerScene);
-    }
-
-    void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) 
+    void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         currentScene = scene.buildIndex;
 
-        if (currentScene == multiplayerScene) {
-            CreatePlayer();
+        if (currentScene == waitScene) {
+            OnWaitSceneLoaded();
+        }
+        else if (currentScene == gameScene) {
+            OnGameSceneLoaded();
         }
     }
 
-    private void CreatePlayer() {
-        PhotonNetwork.Instantiate(
-            Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), 
-            transform.position, Quaternion.identity, 0);
-    }
-
-    // Start is called before the first frame update
-    void Start()
+    private GameObject CreatePlayer()
     {
+        return PhotonNetwork.Instantiate(
+                Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"),
+                transform.position, Quaternion.identity, 0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {   
+    void OnWaitSceneLoaded()
+    {
+        GameObject player = CreatePlayer();
+        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerWaitAvatar"));
+    }
+
+    void OnGameSceneLoaded()
+    {
+        GameObject player = CreatePlayer();
+        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerGameAvatar"));
+    }
+
+    void StartGame()
+    {
+        Debug.Log("Loading Level " + waitScene.ToString());
+        PhotonNetwork.LoadLevel(waitScene);
+    }
+
+    string GetNickName() 
+    {
+        string nick = nicknameInput.text;
+        if (!CheckNickname(nick)) {
+            nick = "Player" + Random.Range(0, 1000).ToString();
+        }
+
+        return nick;
+    }
+
+    public bool CheckNickname(string nick)
+    {
+        if (nick.Length == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

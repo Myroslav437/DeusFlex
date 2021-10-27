@@ -14,19 +14,33 @@ public class PhotonPlayer : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
 
-        // set the spawn point
         if (PV.IsMine) {
             Debug.Log("My number in room is " + PhotonRoom.room.myNumberInRoom.ToString());
-
-            int spIdx = PhotonRoom.room.myNumberInRoom % GameSetup.GS.spawnPoints.Length;
-            Transform sp = GameSetup.GS.spawnPoints[spIdx];
-            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), sp.position, sp.rotation, 0);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject InstantiateAvatar(string prefabPath) 
     {
-        
+        // set the spawn point
+        Vector3 pos = new Vector3(0,0, 0);
+        Quaternion rot = Quaternion.identity;
+
+        try {
+            if (SpawnSetup.SSetup.spawnPoints.Length == 0) {
+                throw new System.NullReferenceException();
+            }
+
+            int spIdx = PhotonRoom.room.myNumberInRoom % SpawnSetup.SSetup.spawnPoints.Length;
+            Transform sp = SpawnSetup.SSetup.spawnPoints[spIdx];
+
+            pos = sp.position;
+            rot = transform.rotation;
+        }
+        catch (System.NullReferenceException) {
+        }
+
+        myAvatar = PhotonNetwork.Instantiate(prefabPath, pos, rot, 0);
+ 
+        return myAvatar;
     }
 }

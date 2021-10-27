@@ -3,24 +3,22 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
-
     public static PhotonLobby lobby;
     public GameObject joinButton;
     public GameObject cancelButton;
 
-    private void Awake()
-    {
-        lobby = this;   //Creates a singleton. Lives within the Main menu scene
-    }
+    public byte roomMaxPlayers;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Trying to connect to the Master server");
         PhotonNetwork.ConnectUsingSettings();   //Connect to the Master photon server
+        PhotonNetwork.ConnectToRegion("eu");
     }
 
     public override void OnConnectedToMaster()
@@ -32,22 +30,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
     }
 
-    public void onJoinButtonClicked() 
+    public void onJoinButtonClicked()
     {
         joinButton.SetActive(false);
         cancelButton.SetActive(true);
 
         PhotonNetwork.JoinRandomRoom();
-    }
-
-    public void onCancelButtonClicked() 
-    {
-        Debug.Log("Left the " + PhotonNetwork.CurrentRoom.Name);
-
-        cancelButton.SetActive(false);
-        joinButton.SetActive(true);
-
-        PhotonNetwork.LeaveRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -57,16 +45,14 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         base.OnJoinRandomFailed(returnCode, message);
     }
 
-    void createRandomRoom() 
+    void createRandomRoom()
     {
         Debug.Log("Creating a new random room");
 
         int randomRoomName = Random.Range(0, 10000);
-        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 10 };
-        PhotonNetwork.CreateRoom("room" + randomRoomName, roomOps);
+        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = roomMaxPlayers };
+        PhotonNetwork.CreateRoom("Room" + randomRoomName, roomOps);
     }
-
-
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
@@ -75,9 +61,18 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         base.OnCreateRoomFailed(returnCode, message);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void onCancelButtonClicked()
     {
-        
+        Debug.Log("Left the " + PhotonNetwork.CurrentRoom.Name);
+
+        cancelButton.SetActive(false);
+        joinButton.SetActive(true);
+
+        PhotonNetwork.LeaveRoom();
+    }
+
+    private void Awake()
+    {
+        lobby = this;   //Creates a singleton. Lives within the Main menu scene
     }
 }
