@@ -20,16 +20,17 @@ public class Shrine : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collidedObject = collision.gameObject;
-        Debug.Log("Collision happens");
+
         if (collidedObject.GetComponent<CarriableResource>() != null)
         {
-           CarriableResource carriadge = collidedObject.GetComponent<CarriableResource>();
+            CarriableResource carriadge = collidedObject.GetComponent<CarriableResource>();
             currentLevel += carriadge.getResourceAmout();
             Destroy(collidedObject.gameObject);
             Debug.Log("Should be destroyed");
         }
     }
+
 }
