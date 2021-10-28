@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_UpdateNicks
   - PRC_PlayerNicknamesSet
   - RPC_PlayerCountUpdate
+  - RPC_SetNickName
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

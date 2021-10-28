@@ -10,6 +10,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public static PhotonLobby lobby;
     public GameObject joinButton;
     public GameObject cancelButton;
+    public InputField nicknameInput;
 
     public byte roomMaxPlayers;
 
@@ -27,6 +28,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
 
         joinButton.SetActive(true);
+
         base.OnConnectedToMaster();
     }
 
@@ -34,6 +36,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         joinButton.SetActive(false);
         cancelButton.SetActive(true);
+
+        if (LocalPlayerInfo.LPI != null)
+        {
+            LocalPlayerInfo.LPI.myNickName = GetNickName();
+            PlayerPrefs.SetString("MyNickName", LocalPlayerInfo.LPI.myNickName);
+        }
 
         PhotonNetwork.JoinRandomRoom();
     }
@@ -74,5 +82,28 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     private void Awake()
     {
         lobby = this;   //Creates a singleton. Lives within the Main menu scene
+    }
+
+    string GetNickName()
+    {
+        string nick = nicknameInput.text;
+        if (!CheckNickname(nick))
+        {
+            nick = "Player" + Random.Range(0, 1000).ToString();
+        }
+
+        return nick;
+    }
+
+    public bool CheckNickname(string nick)
+    {
+        if (nick.Length == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joinButton: {fileID: 829572061}
   cancelButton: {fileID: 726609638}
+  nicknameInput: {fileID: 763920217}
   roomMaxPlayers: 10
 --- !u!4 &57002675
 Transform:
@@ -313,6 +314,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &263422542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 263422544}
+  - component: {fileID: 263422543}
+  m_Layer: 0
+  m_Name: LocalPlayerInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &263422543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263422542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae91272968d15c543833f08df5c51c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkPlayer: {fileID: 0}
+  myNickName: 
+  mySelectedCharacter: 0
+  allCharacters: []
+--- !u!4 &263422544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263422542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.0269623, y: 1.6286353, z: -7.0104446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &305361281
 GameObject:
@@ -1380,7 +1428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd8bede258f7c34c895e2093bf13ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nicknameInput: {fileID: 763920217}
   waitScene: 1
   gameScene: 2
   currentScene: 0

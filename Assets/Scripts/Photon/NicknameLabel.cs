@@ -20,7 +20,6 @@ public class NicknameLabel : MonoBehaviour
 
     private void Update()
     {
-        nickName = PhotonNetwork.NickName;
         GetComponent<TextMesh>().text = nickName;
     }
 }

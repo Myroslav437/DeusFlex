@@ -10,7 +10,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     public static PhotonRoom room;
     private PhotonView PV;
-    public InputField nicknameInput;
 
     public int waitScene;
     public int gameScene;
@@ -60,7 +59,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
-        PhotonNetwork.NickName = GetNickName();
+        PhotonNetwork.NickName = LocalPlayerInfo.LPI.myNickName;
 
         if (!PhotonNetwork.IsMasterClient) {
             return;
@@ -82,16 +81,19 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     }
 
     private GameObject CreatePlayer()
-    {
-        return PhotonNetwork.Instantiate(
+    {    
+        LocalPlayerInfo.LPI.networkPlayer = PhotonNetwork.Instantiate(
                 Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"),
                 transform.position, Quaternion.identity, 0);
+
+        return LocalPlayerInfo.LPI.networkPlayer;
     }
 
     void OnWaitSceneLoaded()
     {
         GameObject player = CreatePlayer();
-        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerWaitAvatar"));
+
+        //player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerWaitAvatar"));
     }
 
     void OnGameSceneLoaded()
@@ -104,25 +106,5 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         Debug.Log("Loading Level " + waitScene.ToString());
         PhotonNetwork.LoadLevel(waitScene);
-    }
-
-    string GetNickName() 
-    {
-        string nick = nicknameInput.text;
-        if (!CheckNickname(nick)) {
-            nick = "Player" + Random.Range(0, 1000).ToString();
-        }
-
-        return nick;
-    }
-
-    public bool CheckNickname(string nick)
-    {
-        if (nick.Length == 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
     }
 }
