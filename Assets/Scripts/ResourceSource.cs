@@ -14,8 +14,9 @@ public class ResourceSource : MonoBehaviour
     [SerializeField]
     double maxResourceHealth=100;
     double resourceHealth;
-    
-    public GameObject trunk;
+
+    [SerializeField]
+    public GameObject resourceLeftover;
 
     void Start()
     {
@@ -46,7 +47,7 @@ public class ResourceSource : MonoBehaviour
         if (resourceHealth <= 0)
         {
             Debug.Log("Imded");
-            Instantiate(trunk).transform.position = transform.position;
+            Instantiate(resourceLeftover).transform.position = transform.position;
 
             foreach(GameObject resource in spawnResources(resourceToSpawn, resourceAmount))
             {

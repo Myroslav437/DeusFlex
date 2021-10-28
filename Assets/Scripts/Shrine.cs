@@ -28,8 +28,9 @@ public class Shrine : MonoBehaviour
         {
             CarriableResource carriadge = collidedObject.GetComponent<CarriableResource>();
             currentLevel += carriadge.getResourceAmout();
-            Destroy(collidedObject.gameObject);
-            Debug.Log("Should be destroyed");
+
+           Destroy(collidedObject.gameObject);
+           
         }
     }
 
