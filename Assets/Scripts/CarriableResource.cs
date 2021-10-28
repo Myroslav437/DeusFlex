@@ -16,4 +16,9 @@ public class CarriableResource : MonoBehaviour
     {
         
     }
+
+    public float getResourceAmout()
+    {
+        return resourceAmout;
+    }
 }

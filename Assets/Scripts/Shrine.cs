@@ -5,7 +5,8 @@ using UnityEngine;
 public class Shrine : MonoBehaviour
 {
 
-
+    double levelCap = 100;
+    double currentLevel = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,13 @@ public class Shrine : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject collidedObject = collision.gameObject;
+        Debug.Log("Collision happens");
         if (collidedObject.GetComponent<CarriableResource>() != null)
         {
-
+           CarriableResource carriadge = collidedObject.GetComponent<CarriableResource>();
+            currentLevel += carriadge.getResourceAmout();
+            Destroy(collidedObject.gameObject);
+            Debug.Log("Should be destroyed");
         }
     }
 }
