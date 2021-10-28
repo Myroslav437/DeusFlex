@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 7606780482246003991}
   - component: {fileID: 7606780482246003990}
   - component: {fileID: 7606780482246004009}
+  - component: {fileID: 9025435224494083600}
   m_Layer: 0
   m_Name: PlayerGameAvatar
   m_TagString: Untagged
@@ -243,6 +244,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   rotationSpeed: 500
+--- !u!114 &9025435224494083600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7606780482246004008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5a1b44e04bd5147bcd6e62c61a54bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nickName: 
 --- !u!1 &7606780483037906561
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +268,6 @@ GameObject:
   - component: {fileID: 7606780483037906574}
   - component: {fileID: 7606780483037906572}
   - component: {fileID: 7606780483037906575}
-  - component: {fileID: 7606780483037906573}
   m_Layer: 0
   m_Name: TextLable
   m_TagString: Untagged
@@ -340,16 +353,3 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &7606780483037906573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7606780483037906561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5a1b44e04bd5147bcd6e62c61a54bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nickName: 

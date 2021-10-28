@@ -5,21 +5,16 @@ using Photon.Pun;
 
 public class NicknameLabel : MonoBehaviour
 {
-    PhotonView PV;
     public string nickName;
-
-    private void OnEnable()
-    {
-        PV = GetComponent<PhotonView>();
-    }
 
     void Start() 
     {
-        nickName = PhotonNetwork.NickName;
+        nickName = "Unknown";
+        //nickName = LocalPlayerInfo.LPI.myNickName;
     }
 
-    private void Update()
+    public void UpdateText()
     {
-        GetComponent<TextMesh>().text = nickName;
+        GetComponentInChildren<TextMesh>().text = nickName;
     }
 }

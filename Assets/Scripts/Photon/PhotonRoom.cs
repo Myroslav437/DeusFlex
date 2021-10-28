@@ -92,7 +92,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void OnWaitSceneLoaded()
     {
         GameObject player = CreatePlayer();
-
         //player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerWaitAvatar"));
     }
 

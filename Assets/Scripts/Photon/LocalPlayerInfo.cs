@@ -47,7 +47,10 @@ public class LocalPlayerInfo : MonoBehaviour
     {
         if (networkPlayer != null)
         {
-            networkPlayer.GetComponent<PhotonPlayer>().SetNickName(myNickName);
+            PhotonPlayer pl = networkPlayer.GetComponent<PhotonPlayer>();
+            if (pl.myAvatar != null) { 
+                pl.myAvatar.GetComponent<NicknameLabel>().nickName = myNickName;
+            }
         }
     }
 }

@@ -776,7 +776,7 @@ MonoBehaviour:
   playersNicks: {fileID: 685717625}
   multiplayerScene: 2
   menuScene: 0
-  roomSize: 2
+  roomSize: 3
   timeToWait: 5
 --- !u!114 &852640313
 MonoBehaviour:

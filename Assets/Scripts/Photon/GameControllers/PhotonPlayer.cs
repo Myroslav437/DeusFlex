@@ -43,9 +43,4 @@ public class PhotonPlayer : MonoBehaviour
  
         return myAvatar;
     }
-
-    public void SetNickName(string nn) 
-    {
-        GetComponent<NicknameLabel>().nickName = nn;
-    }
 }

@@ -16,24 +16,15 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("GameSceneController started");
-        if (PV.IsMine) { 
-            //int playerid = PhotonRoom.room.myNetworkPlayer.GetComponent<PhotonView>().ViewID;
-            //PV.RPC("RPC_SetNickName", RpcTarget.OthersBuffered, playerid, PhotonNetwork.NickName);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log(LocalPlayerInfo.LPI.myNickName + " started RPC_SetNickName");
+        GameObject avatar = LocalPlayerInfo.LPI.networkPlayer.GetComponent<PhotonPlayer>().myAvatar;
+        int avatarID = avatar.GetComponent<PhotonView>().ViewID;
+        PV.RPC("RPC_SetNickName", RpcTarget.AllBufferedViaServer, avatarID, LocalPlayerInfo.LPI.myNickName);
     }
 
     [PunRPC]
-    void RPC_SetNickName(string nickName) {
-        LocalPlayerInfo.LPI.myNickName = nickName;
-        /*
-        Debug.Log("RPC_SetNickName for" + nickName);
+    void RPC_SetNickName(int playerViewID, string nickName) {
+        Debug.Log("Executing RPC_SetNickName for " + nickName);
 
         PhotonView[] plArr = FindObjectsOfType<PhotonView>();
         GameObject obj = null;
@@ -47,10 +38,10 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
         if (obj == null) {
             Debug.Log("No objects found");
         }
-        */
 
-        //PhotonPlayer tmp = obj.GetComponent<PhotonPlayer>();
-        //PhotonRoom.room.myNetworkPlayer.GetComponent<PhotonPlayer>().SetNickName(nickName);
+        NicknameLabel nl = obj.GetComponent<NicknameLabel>();
+        nl.nickName = nickName;
+        nl.UpdateText();
     }
 
 
