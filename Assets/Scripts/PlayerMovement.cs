@@ -46,11 +46,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
 
-
         rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
         anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
-
-
 
     }
 
@@ -78,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Collider2D hitObject = Physics2D.OverlapCircle(transform.position, 1, resourcesMask);
 
-            hitObject.GetComponent<Resource>().takeDamage(playerDamage);
+            hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
         }
            
     }
