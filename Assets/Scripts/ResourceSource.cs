@@ -1,13 +1,14 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
 public class ResourceSource : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField]
-    GameObject resourceToSpawn;
+
     [SerializeField]
     int resourceAmount=3;
 
@@ -15,8 +16,8 @@ public class ResourceSource : MonoBehaviour
     double maxResourceHealth=100;
     double resourceHealth;
 
-    [SerializeField]
-    public GameObject resourceLeftover;
+    public string resourceToSpawnName;
+    public string resourceLeftoverName;
 
     void Start()
     {
@@ -47,25 +48,29 @@ public class ResourceSource : MonoBehaviour
         if (resourceHealth <= 0)
         {
             Debug.Log("Imded");
-            Instantiate(resourceLeftover).transform.position = transform.position;
+            //Instantiate(resourceLeftover).transform.position = transform.position;
+            // Instantiate resource leftover
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", resourceLeftoverName), transform.position, Quaternion.identity, 0);
 
-            foreach(GameObject resource in spawnResources(resourceToSpawn, resourceAmount))
+            foreach(GameObject resource in spawnResources(resourceToSpawnName, resourceAmount))
             {
                 increment++;
                 spawnPosition.y += offset*increment;
                 resource.transform.position=spawnPosition;
             }
-            Destroy(this.gameObject);
+
+            //Destroy(this.gameObject);
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 
 
-    List<GameObject> spawnResources(GameObject resourceType, int num)
+    List<GameObject> spawnResources(string resourceType, int num)
     {
         List<GameObject> spawnedObjects = new List<GameObject>(num);
         for(int i = 0; i < num; i++)
         {
-            spawnedObjects.Add( Instantiate(resourceType));
+            spawnedObjects.Add(PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", resourceToSpawnName), transform.position, Quaternion.identity, 0));
         }
         return spawnedObjects;
     }

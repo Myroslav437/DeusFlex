@@ -124,10 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f66d2b0b88af67408ec1fa77854b49e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceToSpawn: {fileID: 1900075955358434174, guid: c2e8ff2e35e9476428a79ec0ed783b4b, type: 3}
   resourceAmount: 2
   maxResourceHealth: 200
-  resourceLeftover: {fileID: 6474914451120561390, guid: dfdf791d5ac136340b25b32bfa8afa92, type: 3}
+  resourceToSpawnName: stoneCarriable
+  resourceLeftoverName: stoneLeftover
 --- !u!114 &2711086095825253458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents: []
   sceneViewId: 0

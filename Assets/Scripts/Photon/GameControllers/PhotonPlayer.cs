@@ -22,6 +22,8 @@ public class PhotonPlayer : MonoBehaviour
             Transform sp = GameSetup.GS.spawnPoints[spIdx];
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerAvatar"), sp.position, sp.rotation, 0);
 
+            myAvatar.transform.Find("Camera").gameObject.SetActive(true);
+            
         }
     }
 
