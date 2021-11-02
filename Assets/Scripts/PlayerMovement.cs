@@ -46,9 +46,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
 
-        rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
-        anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
-
+        if (rb.velocity.y == 0f)
+        {
+            rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
+            anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
+        }
     }
 
     void BasicRotation()
