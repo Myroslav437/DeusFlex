@@ -19,8 +19,6 @@ public class ResourceSource : MonoBehaviourPun
     public string resourceToSpawnName;
     public string resourceLeftoverName;
 
-    bool isDestroyed = false;
-
     void Start()
     {
         resourceHealth = maxResourceHealth;
@@ -37,8 +35,8 @@ public class ResourceSource : MonoBehaviourPun
         photonView.RequestOwnership();
 
         resourceHealth -= damageAmout;
-        Debug.Log("ouch");
 
+        Debug.Log("Remaining health: "+resourceHealth);
 
         if (resourceHealth <= 0)
         {
@@ -48,15 +46,6 @@ public class ResourceSource : MonoBehaviourPun
 
     void destroySelf()
     {
-       
-
-        Vector3 spawnPosition = transform.position;
-
-        int increment = 1;
-        int offset = 1;
-
-        spawnPosition.x += offset;
-        spawnPosition.z = 0;
 
         Debug.Log("Imded");
 
@@ -64,26 +53,27 @@ public class ResourceSource : MonoBehaviourPun
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", resourceLeftoverName), transform.position, Quaternion.identity, 0);
 
         // Instantiate carriable resources
-        foreach (GameObject resource in spawnResources(resourceToSpawnName, resourceAmount))
-        {
-            increment++;
-            spawnPosition.y += offset * increment;
-            resource.transform.position = spawnPosition;
-        }
-
+        spawnResources(resourceToSpawnName, resourceAmount);
 
         PhotonNetwork.Destroy(this.gameObject);
     }
 
 
-    List<GameObject> spawnResources(string resourceType, int num)
-    {
-        List<GameObject> spawnedObjects = new List<GameObject>(num);
+    void spawnResources(string resourceType, int num)
+    { 
+        Vector3 spawnPosition = transform.position;
+
+        int offset = 1;
+
+        spawnPosition.x += offset;
+        spawnPosition.z = 0;
+
         for(int i = 0; i < num; i++)
-        {
-            spawnedObjects.Add(PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", resourceToSpawnName), transform.position, Quaternion.identity, 0));
+        { 
+            spawnPosition.y += offset * (i+0.6f);
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", resourceToSpawnName), spawnPosition, Quaternion.identity, 0);
         }
-        return spawnedObjects;
+ 
     }
 
 
