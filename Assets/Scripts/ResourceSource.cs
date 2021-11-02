@@ -75,7 +75,7 @@ public class ResourceSource : MonoBehaviourPun,IPunObservable
         }
  
     }
-
+    //RPC would suit this better
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
