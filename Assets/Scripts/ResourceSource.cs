@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 
 
-public class ResourceSource : MonoBehaviourPun
+public class ResourceSource : MonoBehaviourPun,IPunObservable
 {
     // Start is called before the first frame update
 
@@ -76,5 +76,15 @@ public class ResourceSource : MonoBehaviourPun
  
     }
 
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(resourceHealth);
+        }
+        else
+        {
+            this.resourceHealth = (double)stream.ReceiveNext();
+        }
+    }
 }
