@@ -200,6 +200,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   playerDamage: 10
+  playerCam: {fileID: 6533396418070670066}
 --- !u!50 &6533396417521525830
 Rigidbody2D:
   serializedVersion: 4

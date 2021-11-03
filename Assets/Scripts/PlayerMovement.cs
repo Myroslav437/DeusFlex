@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPun
 {
     private PhotonView PV;
     private Rigidbody2D rb;
@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     public LayerMask resourcesMask;
     public double playerDamage=10;
+    public Camera playerCam;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&& PV.IsMine)
         {
             attack();
         }
@@ -72,10 +73,11 @@ public class PlayerMovement : MonoBehaviour
 
     void attack()
     {
+
         //states it's null despite the check
-        if (Physics2D.OverlapCircle(transform.position, 1, resourcesMask) != null)
+        if (Physics2D.OverlapCircle(playerCam.ScreenToWorldPoint(Input.mousePosition), 1, resourcesMask) != null)
         {
-            Collider2D hitObject = Physics2D.OverlapCircle(transform.position, 1, resourcesMask);
+            Collider2D hitObject = Physics2D.OverlapCircle(playerCam.ScreenToWorldPoint(Input.mousePosition), 1, resourcesMask);
 
             hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
         }
