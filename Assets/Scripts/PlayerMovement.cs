@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviourPun
     {
         if (Input.GetMouseButtonDown(0)&& PV.IsMine)
         {
-            attack();
+            photonView.RPC("attack", RpcTarget.All);
         }
     }
 
@@ -75,11 +75,12 @@ public class PlayerMovement : MonoBehaviourPun
 
     }
 
+    [PunRPC]
     void attack()
     {
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
-        //states it's null despite the check
+
         if (Physics2D.OverlapCircle(mousePos, 1, resourcesMask) != null)
         {
             Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
