@@ -8,14 +8,18 @@ public class PlayerMovement : MonoBehaviourPun
     private PhotonView PV;
     private Rigidbody2D rb;
     private DistanceJoint2D carriableJoint;
+    private Animator anim;
     public Camera playerCam;
+
     public LayerMask resourcesMask;
-    
 
     public float movementSpeed;
-    public float rotationSpeed;
-    private Animator anim;
-    public double playerDamage=10;
+
+    public double playerDamage = 10;
+
+    public float playerHealth=100;
+    public float playerMaxHealth = 100;
+
 
 
     // Start is called before the first frame update
@@ -70,8 +74,6 @@ public class PlayerMovement : MonoBehaviourPun
         // set vector of transform directly
         transform.up = direction;
         */
-        //test comment to test git
-        //git status on my laptop is up to date , even though i changed the branch and file on other computer
 
     }
 
