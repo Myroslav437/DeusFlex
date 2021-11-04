@@ -90,8 +90,6 @@ public class PlayerMovement : MonoBehaviourPun
             if (hitObject.tag.Equals("CarriableResource"))
             {
                 carriableJoint.enabled = true;
-                // doesn't work due to improper coordinate transformation
-                carriableJoint.connectedAnchor = transform.TransformPoint(GameObject.Find("model").transform.position) - mousePos   ;
                 carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
             }
 
