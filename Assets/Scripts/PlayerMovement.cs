@@ -7,12 +7,16 @@ public class PlayerMovement : MonoBehaviourPun
 {
     private PhotonView PV;
     private Rigidbody2D rb;
+    private DistanceJoint2D carriableJoint;
+    public Camera playerCam;
+    public LayerMask resourcesMask;
+    
+
     public float movementSpeed;
     public float rotationSpeed;
     private Animator anim;
-    public LayerMask resourcesMask;
     public double playerDamage=10;
-    public Camera playerCam;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +24,7 @@ public class PlayerMovement : MonoBehaviourPun
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
         anim = GameObject.Find("model").GetComponent<Animator>();
-        
+        carriableJoint = GetComponent<DistanceJoint2D>();
     }
 
     // Update is called once per frame
@@ -73,14 +77,28 @@ public class PlayerMovement : MonoBehaviourPun
 
     void attack()
     {
+        Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
         //states it's null despite the check
-        if (Physics2D.OverlapCircle(playerCam.ScreenToWorldPoint(Input.mousePosition), 1, resourcesMask) != null)
+        if (Physics2D.OverlapCircle(mousePos, 1, resourcesMask) != null)
         {
-            Collider2D hitObject = Physics2D.OverlapCircle(playerCam.ScreenToWorldPoint(Input.mousePosition), 1, resourcesMask);
+            Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
 
+            if(hitObject.tag.Equals("ResourceSource"))
             hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
+
+            if (hitObject.tag.Equals("CarriableResource"))
+            {
+                carriableJoint.enabled = true;
+                // doesn't work due to improper coordinate transformation
+                carriableJoint.connectedAnchor = transform.TransformPoint(GameObject.Find("model").transform.position) - mousePos   ;
+                carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
+            }
+
         }
-           
+        else
+        {
+            carriableJoint.enabled = false;
+        }
     }
 }

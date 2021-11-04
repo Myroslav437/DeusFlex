@@ -53,74 +53,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &6533396417247037283
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6533396417247037284}
-  - component: {fileID: 6533396417247037285}
-  - component: {fileID: 6533396417247037286}
-  m_Layer: 0
-  m_Name: resource attracktor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6533396417247037284
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6533396417247037283}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.476, y: -0.117, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6533396417030980155}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!250 &6533396417247037285
-PointEffector2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6533396417247037283}
-  m_Enabled: 1
-  m_UseColliderMask: 1
-  m_ColliderMask:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ForceMagnitude: -20
-  m_ForceVariation: -100
-  m_DistanceScale: 50
-  m_ForceSource: 1
-  m_ForceTarget: 1
-  m_ForceMode: 0
-  m_Drag: 0
-  m_AngularDrag: 0
---- !u!58 &6533396417247037286
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6533396417247037283}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 1
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.38364828, y: 0}
-  serializedVersion: 2
-  m_Radius: 2.14
 --- !u!1 &6533396417521525827
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +67,7 @@ GameObject:
   - component: {fileID: 6533396417521525830}
   - component: {fileID: 6533396417521525829}
   - component: {fileID: 6533396417521525828}
+  - component: {fileID: 3433050966276391934}
   m_Layer: 0
   m_Name: PlayerAvatar
   m_TagString: Untagged
@@ -155,7 +88,6 @@ Transform:
   m_Children:
   - {fileID: 6533396418070670064}
   - {fileID: 6533396416939944893}
-  - {fileID: 6533396417247037284}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,13 +126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74fda2426689e0a44a4390e4cf795a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 20
-  rotationSpeed: 500
+  playerCam: {fileID: 6533396418070670066}
   resourcesMask:
     serializedVersion: 2
     m_Bits: 8
+  movementSpeed: 20
+  rotationSpeed: 500
   playerDamage: 10
-  playerCam: {fileID: 6533396418070670066}
 --- !u!50 &6533396417521525830
 Rigidbody2D:
   serializedVersion: 4
@@ -264,6 +196,25 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!232 &3433050966276391934
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6533396417521525827}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 1
+  m_Distance: 1
+  m_MaxDistanceOnly: 0
 --- !u!1 &6533396417668866353
 GameObject:
   m_ObjectHideFlags: 0
