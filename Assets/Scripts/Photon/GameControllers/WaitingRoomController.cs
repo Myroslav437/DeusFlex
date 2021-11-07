@@ -13,8 +13,22 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
     private PhotonView PV;
 
     public Text roomCountDisplay;
+    public Text roomCountDisplayLabel;
     public Text countDownDisplay;
+    public Text countDownDisplayLabel;
     public Text playersNicks;
+    public Text chooseYourTeam;
+    public Text WaitingRoomLabel;
+    public Text GetReadyLabel;
+    public Text BlueTeamInfo;
+    public Text RedTeamInfo;
+    public Text PlayersNickNames;
+
+
+    public GameObject redSquare;
+    public GameObject blueSquare;
+
+    public GameObject cancelButton;
 
     public int multiplayerScene;
     public int menuScene;
@@ -27,8 +41,8 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
     private float countDownTime;
 
     private bool readyToStart;
+    private bool startingMatchMaking;
     private bool startingGame;
-
 
     private void Awake()
     {
@@ -53,20 +67,131 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) {
             Debug.Log("I am a master client");
         }
+
+        // Set nickNames
+        GameObject avatar = LocalPlayerInfo.LPI.networkPlayer.GetComponent<PhotonPlayer>().myAvatar;
+        int avatarID = avatar.GetComponent<PhotonView>().ViewID;
+        PV.RPC("RPC_SetNickName", RpcTarget.AllBufferedViaServer, avatarID, LocalPlayerInfo.LPI.myNickName);
     }
 
     void Update()
     {
         WaitForMorePlayers();
+        WaitForPlayersMatchMaking();
     }
 
     void WaitForMorePlayers()
     {
-        if (readyToStart)  { // full room
+        if (readyToStart) { // staring countdown
             countDownTime -= Time.deltaTime;
+
+            // Set squares
+            redSquare.SetActive(true);
+            blueSquare.SetActive(true);
+
+            // Set "ChooseYourTeam"
+            chooseYourTeam.gameObject.SetActive(false);
+
+            // Set Cancel button:
+            cancelButton.SetActive(false);
+
+            // Set "PlayersCount"
+            roomCountDisplay.gameObject.SetActive(false);
+            roomCountDisplayLabel.gameObject.SetActive(false);
+
+            // Set "Waiting room"
+            WaitingRoomLabel.gameObject.SetActive(false);
+
+            // Set "Get Ready"
+            GetReadyLabel.gameObject.SetActive(true);
+
+            // Set PlayersNickNames
+            PlayersNickNames.gameObject.SetActive(false);
+
+            // Set BlueTeamInfo and RedTeamInfo:
+            BlueTeamInfo.gameObject.SetActive(true);
+            RedTeamInfo.gameObject.SetActive(true);
+
+            // Set "CountDown"
+            countDownDisplay.gameObject.SetActive(true);
+            countDownDisplayLabel.gameObject.SetActive(true);
+
+            // update commands names
+            updateRedTeamList();
+            updateBlueTeamList();
+
+        }
+        else if (startingMatchMaking)  { // full room
+            ResetTimer();
+
+            // Set squares
+            redSquare.SetActive(true);
+            blueSquare.SetActive(true);
+
+            // Set "ChooseYourTeam"
+            chooseYourTeam.gameObject.SetActive(true);
+
+            // Set Cancel button:
+            cancelButton.SetActive(false);
+
+            // Set "PlayersCount"
+            roomCountDisplay.gameObject.SetActive(false);
+            roomCountDisplayLabel.gameObject.SetActive(false);
+
+            // Set "CountDown"
+            countDownDisplay.gameObject.SetActive(false);
+            countDownDisplayLabel.gameObject.SetActive(false);
+
+            // Set "Waiting room"
+            WaitingRoomLabel.gameObject.SetActive(false);
+
+            // Set "Get Ready"
+            GetReadyLabel.gameObject.SetActive(false);
+
+            // Set PlayersNickNames
+            PlayersNickNames.gameObject.SetActive(false);
+
+            // Set BlueTeamInfo and RedTeamInfo:
+            BlueTeamInfo.gameObject.SetActive(true);
+            RedTeamInfo.gameObject.SetActive(true);
+
+            // update commands names
+            updateRedTeamList();
+            updateBlueTeamList();
         }
         else {
             ResetTimer();
+
+            // Set squares
+            redSquare.SetActive(false);
+            blueSquare.SetActive(false);
+
+            // Set "ChooseYourTeam"
+            chooseYourTeam.gameObject.SetActive(false);
+
+            // Set Cancel button:
+            cancelButton.SetActive(true);
+
+            // Set "CountDown"
+            countDownDisplay.gameObject.SetActive(false);
+            countDownDisplayLabel.gameObject.SetActive(false);
+
+            // Set "PlayersCount"
+            roomCountDisplay.gameObject.SetActive(true);
+            roomCountDisplayLabel.gameObject.SetActive(true);
+
+            // Set PlayersNickNames
+            PlayersNickNames.gameObject.SetActive(true);
+
+            // Set "Waiting room"
+            WaitingRoomLabel.gameObject.SetActive(true);
+
+            // Set "Get Ready"
+            GetReadyLabel.gameObject.SetActive(false);
+
+            // Set BlueTeamInfo and RedTeamInfo:
+            BlueTeamInfo.gameObject.SetActive(false);
+            RedTeamInfo.gameObject.SetActive(false);
         }
 
         countDownDisplay.text = string.Format("{0:00}", countDownTime);
@@ -75,8 +200,59 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             if (startingGame) {
                 return;
             }
+
             StartGame();
         }
+    }
+
+    void WaitForPlayersMatchMaking()
+    {
+        if (TeamController.TC.playersData.Count == roomSize)
+        {
+            int redTeamCount = 0, blueTeamCount = 0;
+            foreach (KeyValuePair<int, TeamController.PlayerData> p in TeamController.TC.playersData)
+            {
+                if (p.Value.team == "Red")
+                {
+                    ++redTeamCount;
+                }
+                else if (p.Value.team == "Blue")
+                {
+                    ++blueTeamCount;
+                }
+            }
+
+            readyToStart = (redTeamCount == (roomSize / 2) && blueTeamCount == (roomSize / 2));
+        }
+        else {
+            readyToStart = false;
+        }
+    }
+
+    private void updateRedTeamList() 
+    {
+        RedTeamInfo.text = "Red Team" + System.Environment.NewLine;
+        string nicks = "";
+        foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
+            if (pd.Value.team == "Red") {
+                nicks += pd.Value.nickName + " " + pd.Value.playerPVID + " " + pd.Key + System.Environment.NewLine;
+            }
+        }
+
+        RedTeamInfo.text += nicks;
+    }
+
+    private void updateBlueTeamList()
+    {
+        BlueTeamInfo.text = "Blue Team" + System.Environment.NewLine;
+        string nicks = "";
+        foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
+            if (pd.Value.team == "Blue") {
+                nicks += pd.Value.nickName + " " + pd.Value.playerPVID + " " + pd.Key + System.Environment.NewLine;
+            }
+        }
+
+        BlueTeamInfo.text += nicks;
     }
 
     public override void OnJoinedRoom()
@@ -92,12 +268,13 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient) {
-            Debug.Log("I am a master " + PhotonNetwork.NickName + " and " + newPlayer.NickName + " entered the room");
+            //Debug.Log("I am a master " + PhotonNetwork.NickName + " and " + newPlayer.NickName + " entered the room");
+            Debug.Log("I am a master " + PhotonNetwork.LocalPlayer.ActorNumber + " and " + newPlayer.ActorNumber + " entered the room");
             PV.RPC("RPC_SetTimer", RpcTarget.Others, timeToWait);
             PV.RPC("RPC_PlayerCountUpdate", RpcTarget.AllViaServer);
         }
         else {
-            Debug.Log("I am a player" + PhotonNetwork.NickName  + " and " + newPlayer.NickName + " entered the room");
+            Debug.Log("I am a player " + PhotonNetwork.LocalPlayer.ActorNumber + " and " + newPlayer.ActorNumber + " entered the room");
         }
 
         base.OnPlayerEnteredRoom(newPlayer);
@@ -121,7 +298,7 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_PlayerCountUpdate()  {
         playerCount = PhotonNetwork.PlayerList.Length;
-        readyToStart = (playerCount == roomSize);
+        startingMatchMaking = (playerCount == roomSize);
 
         roomCountDisplay.text = playerCount.ToString() + ":" + roomSize.ToString();
     }
@@ -171,5 +348,18 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(menuScene);
+    }
+
+
+    [PunRPC]
+    void RPC_SetNickName(int playerViewID, string nickName)
+    {
+        Debug.Log("Executing RPC_SetNickName for " + nickName);
+
+        GameObject obj = PhotonHelper.FindObjectViaPVID(playerViewID);
+
+        NicknameLabel nl = obj.GetComponent<NicknameLabel>();
+        nl.nickName = nickName;
+        nl.UpdateText();
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private PhotonView PV;
-    private CharacterController myCC;
+    private Rigidbody2D RB;
     public float movementSpeed;
     public float rotationSpeed;
 
@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        myCC = GetComponent<CharacterController>();
+        RB = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -33,18 +33,12 @@ public class PlayerMovement : MonoBehaviour
 
     void BasicMovement() 
     {
-        if (Input.GetKey(KeyCode.W)) {
-            myCC.Move(transform.up * movementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A)) {
-            myCC.Move(-transform.right * movementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.S)) {
-            myCC.Move(-transform.up * movementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D)) {
-            myCC.Move(transform.right * movementSpeed * Time.deltaTime);
-        }
+
+        Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+        float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
+
+        RB.MovePosition(RB.position + movementVector * movementSpeed * Time.deltaTime);
+
     }
 
     void BasicRotation()

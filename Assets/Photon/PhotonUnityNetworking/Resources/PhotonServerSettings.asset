@@ -44,6 +44,11 @@ MonoBehaviour:
   - PRC_PlayerNicknamesSet
   - RPC_PlayerCountUpdate
   - RPC_SetNickName
+  - RPC_AddPlayerInfo
+  - RPC_RemovePayerInfo
+  - RPC_ConnectAvatar
+  - RPC_PlayerInfoUpdate
+  - RPC_SetPlayerInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
