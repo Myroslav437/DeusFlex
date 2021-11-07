@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94223be331c2cb45ac49faa47415952, type: 3}
   m_Name: testAb
   m_EditorClassIdentifier: 
-  abilityName: 
-  cooldownTime: 0
-  activeTime: 0
+  abilityName: Spawn Wood
+  cooldownTime: 0.5
+  activeTime: 0.1
+  cube: {fileID: 399382472802755151, guid: 070a62770a843fb4098a0b545c31d226, type: 3}
