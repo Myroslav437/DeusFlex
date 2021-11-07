@@ -289,10 +289,11 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.DestroyPlayerObjects(other);
 
-
         PV.RPC("RPC_PlayerCountUpdate", RpcTarget.AllViaServer);
         PlayerNicknamesUpdate();
         PV.RPC("PRC_PlayerNicknamesSet", RpcTarget.AllBufferedViaServer, playersNicks.text);
+
+        TeamController.TC.RemovePlayerInfo(other.ActorNumber);
     }
 
     [PunRPC]

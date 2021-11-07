@@ -30,13 +30,9 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
         GameObject obj = null;
         foreach(PhotonView pl in plArr) {
             if (pl.ViewID == playerViewID) {
-                Debug.Log("Objects with ViewID = " + playerViewID + " found");
                 obj = pl.gameObject;
                 break;
             }
-        }
-        if (obj == null) {
-            Debug.Log("No objects found");
         }
 
         NicknameLabel nl = obj.GetComponent<NicknameLabel>();

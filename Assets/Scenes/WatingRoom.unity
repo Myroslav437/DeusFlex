@@ -1071,7 +1071,7 @@ MonoBehaviour:
   cancelButton: {fileID: 1293245558}
   multiplayerScene: 2
   menuScene: 0
-  roomSize: 2
+  roomSize: 4
   timeToWait: 5
 --- !u!114 &852640313
 MonoBehaviour:
