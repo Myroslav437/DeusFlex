@@ -49,6 +49,7 @@ MonoBehaviour:
   - RPC_ConnectAvatar
   - RPC_PlayerInfoUpdate
   - RPC_SetPlayerInfo
+  - RPC_SendMasterPlayerInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

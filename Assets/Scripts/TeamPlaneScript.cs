@@ -27,7 +27,10 @@ public class TeamPlaneScript : MonoBehaviour
                 GameObject avatar = collision.gameObject;
                 PhotonPlayer player = PhotonHelper.GetPhotonPlayerFromAvatar(avatar);
 
-                player.RemoveMeFromATeam();
+                // if player == null than it was disconnected while matchmaking countdown:
+                if (player != null) { 
+                    player.RemoveMeFromATeam();
+                }
                 break;
             }
         }

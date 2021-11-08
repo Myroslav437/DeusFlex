@@ -30,8 +30,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             PhotonRoom.room = this;
         }
 
+        PhotonRoom.room.PV = GetComponent<PhotonView>();
         DontDestroyOnLoad(this.gameObject);
-        PV = GetComponent<PhotonView>();
     }
 
 

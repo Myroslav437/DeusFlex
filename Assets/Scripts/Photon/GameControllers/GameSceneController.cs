@@ -20,6 +20,11 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
         GameObject avatar = LocalPlayerInfo.LPI.networkPlayer.GetComponent<PhotonPlayer>().myAvatar;
         int avatarID = avatar.GetComponent<PhotonView>().ViewID;
         PV.RPC("RPC_SetNickName", RpcTarget.AllBufferedViaServer, avatarID, LocalPlayerInfo.LPI.myNickName);
+
+        Debug.Log(System.Environment.NewLine);
+        foreach (KeyValuePair<int, TeamController.PlayerData> p in TeamController.TC.playersData) {
+            Debug.Log(p.Value.nickName + " " + p.Value.team + " " + p.Value.avatarType + System.Environment.NewLine);
+        }
     }
 
     [PunRPC]

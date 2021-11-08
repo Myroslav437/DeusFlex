@@ -235,7 +235,7 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         string nicks = "";
         foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
             if (pd.Value.team == "Red") {
-                nicks += pd.Value.nickName + " " + pd.Value.playerPVID + " " + pd.Key + System.Environment.NewLine;
+                nicks += pd.Value.nickName + System.Environment.NewLine;
             }
         }
 
@@ -248,7 +248,7 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         string nicks = "";
         foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
             if (pd.Value.team == "Blue") {
-                nicks += pd.Value.nickName + " " + pd.Value.playerPVID + " " + pd.Key + System.Environment.NewLine;
+                nicks += pd.Value.nickName + System.Environment.NewLine;
             }
         }
 
@@ -286,14 +286,15 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) {
             Debug.Log("I am a master " + PhotonNetwork.NickName + " and " + other.NickName + " left the room");
             PV.RPC("RPC_PlayerCountUpdate", RpcTarget.AllViaServer);
+
+            TeamController.TC.RemovePlayerInfo(other.ActorNumber);
+            TeamController.TC.GetComponent<PhotonView>().RPC("RPC_SendMasterPlayerInfo", RpcTarget.MasterClient);
         }
         PhotonNetwork.DestroyPlayerObjects(other);
 
         PV.RPC("RPC_PlayerCountUpdate", RpcTarget.AllViaServer);
         PlayerNicknamesUpdate();
         PV.RPC("PRC_PlayerNicknamesSet", RpcTarget.AllBufferedViaServer, playersNicks.text);
-
-        TeamController.TC.RemovePlayerInfo(other.ActorNumber);
     }
 
     [PunRPC]
@@ -341,12 +342,19 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             return;
         }
 
+        TeamController.TC.AssignTypesRandomly();
+        TeamController.TC.GetComponent<PhotonView>().RPC("RPC_SendMasterPlayerInfo", RpcTarget.MasterClient);
+
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.LoadLevel(multiplayerScene);
     }
 
     public void OnCancelButtonPressed() 
     {
+        Destroy(PhotonHelper.PH.gameObject);
+        Destroy(PhotonRoom.room.gameObject);
+        Destroy(TeamController.TC.gameObject);
+
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(menuScene);
     }
