@@ -2,10 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum resourceType
+{
+    wood = 0,
+    stone = 1,
+    gold = 2,
+    emeralds = 3
+}
+
 public class CarriableResource : MonoBehaviour
 {
+
+    public resourceType resource;
+
     [SerializeField]
     float resourceAmout = 50f;
+
     void Start()
     {
         
@@ -17,7 +30,11 @@ public class CarriableResource : MonoBehaviour
         
     }
 
-    public float getResourceAmout()
+    public resourceType getResType()
+    {
+        return resource;
+    }
+    public float getResAmount()
     {
         return resourceAmout;
     }

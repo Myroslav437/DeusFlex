@@ -36,7 +36,8 @@ public class PlayerMovement : MonoBehaviourPun
     {
         if (Input.GetMouseButtonDown(0)&& PV.IsMine)
         {
-            photonView.RPC("attack", RpcTarget.All);
+            //  photonView.RPC("attack", RpcTarget.All);
+            attack();
         }
     }
 
@@ -44,7 +45,6 @@ public class PlayerMovement : MonoBehaviourPun
     {
         if (PV.IsMine) {
             BasicMovement();
-            BasicRotation();
         }
     }
 
@@ -62,22 +62,8 @@ public class PlayerMovement : MonoBehaviourPun
         }
     }
 
-    void BasicRotation()
-    {
-        /*
-        // convert mouse position into world coordinates
-        Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // get direction you want to point at
-        Vector2 direction = (mouseScreenPosition - (Vector2)transform.position).normalized;
-
-        // set vector of transform directly
-        transform.up = direction;
-        */
-
-    }
-
-    [PunRPC]
+    //[PunRPC]
     void attack()
     {
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
@@ -92,6 +78,7 @@ public class PlayerMovement : MonoBehaviourPun
 
             if (hitObject.tag.Equals("CarriableResource"))
             {
+                hitObject.GetComponent<PhotonView>().RequestOwnership();
                 carriableJoint.enabled = true;
                 carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
             }

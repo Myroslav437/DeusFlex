@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5797773825812575479}
   - component: {fileID: -7462631823221735184}
   - component: {fileID: 288073822809526354}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: treePiece
   m_TagString: CarriableResource
   m_Icon: {fileID: 0}
@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94506049139ff345847b49af1ec3183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceAmout: 50
+  resource: 0
+  resourceAmout: 25
 --- !u!114 &5797773825812575479
 MonoBehaviour:
   m_ObjectHideFlags: 0
