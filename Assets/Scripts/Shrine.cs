@@ -66,4 +66,9 @@ public class Shrine : MonoBehaviour
         return state;
     }
 
+    public int getShrineLevel()
+    {
+        return currentLevel;
+    }
+
 }

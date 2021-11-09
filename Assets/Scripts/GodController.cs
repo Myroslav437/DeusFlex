@@ -6,7 +6,7 @@ using UnityEngine;
 public class GodController : MonoBehaviourPun
 {
 
-
+    public GameObject playerReference;
 
     private PhotonView PV;
     public Camera godCam;
@@ -17,6 +17,7 @@ public class GodController : MonoBehaviourPun
     public GameObject[] level4Skills;
 
     public float movementSpeed;
+    int currentLevel = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class GodController : MonoBehaviourPun
         PV = GetComponent<PhotonView>();
         disableAllSkills();
 
+        enableFirstLevel();
     }
 
     // Update is called once per frame
@@ -34,18 +36,35 @@ public class GodController : MonoBehaviourPun
             BasicMovement();
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
         {
-            enableFirstLevel();
+            playerReference.SetActive(true);
+            PhotonNetwork.Destroy(gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.R))
+
+        // this should be done by events, but i dont care
+        synchLevels();
+
+    }
+
+    void synchLevels()
+    {
+        currentLevel = GameObject.FindGameObjectWithTag("ShrineTeam1").GetComponent<Shrine>().getShrineLevel();
+
+        switch (currentLevel)
         {
-            enableSecondLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            enableThirdLevel();
-            enableFourthLevel();
+            case (0):
+                enableFirstLevel();
+                break;
+            case (1):
+                enableSecondLevel();
+                break;
+            case (2):
+                enableThirdLevel();
+                break;
+            case (3):
+                enableFourthLevel();
+                break;
         }
     }
 
@@ -65,6 +84,11 @@ public class GodController : MonoBehaviourPun
 
     void enableSecondLevel()
     {
+        foreach (GameObject skill in level1Skills)
+        {
+            skill.SetActive(true);
+        }
+
         foreach (GameObject skill in level2Skills)
         {
             skill.SetActive(true);
@@ -73,6 +97,16 @@ public class GodController : MonoBehaviourPun
 
     void enableThirdLevel()
     {
+        foreach (GameObject skill in level1Skills)
+        {
+            skill.SetActive(true);
+        }
+
+        foreach (GameObject skill in level2Skills)
+        {
+            skill.SetActive(true);
+        }
+
         foreach (GameObject skill in level3Skills)
         {
             skill.SetActive(true);
@@ -81,6 +115,21 @@ public class GodController : MonoBehaviourPun
 
     void enableFourthLevel()
     {
+        foreach (GameObject skill in level1Skills)
+        {
+            skill.SetActive(true);
+        }
+
+        foreach (GameObject skill in level2Skills)
+        {
+            skill.SetActive(true);
+        }
+
+        foreach (GameObject skill in level3Skills)
+        {
+            skill.SetActive(true);
+        }
+
         foreach (GameObject skill in level4Skills)
         {
             skill.SetActive(true);

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CarriableResource
   - ResourceSource
+  - DeityTeam1
+  - ShrineTeam1
   layers:
   - Default
   - TransparentFX

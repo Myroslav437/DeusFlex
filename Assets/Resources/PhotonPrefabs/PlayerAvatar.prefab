@@ -133,7 +133,6 @@ MonoBehaviour:
   movementSpeed: 20
   playerDamage: 10
   playerHealth: 100
-  playerMaxHealth: 100
 --- !u!50 &6533396417521525830
 Rigidbody2D:
   serializedVersion: 4

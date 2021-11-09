@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviourPun
@@ -11,6 +12,8 @@ public class PlayerMovement : MonoBehaviourPun
     private Animator anim;
     public Camera playerCam;
 
+    GameObject deityReference;
+
     public LayerMask resourcesMask;
 
     public float movementSpeed;
@@ -18,7 +21,7 @@ public class PlayerMovement : MonoBehaviourPun
     public double playerDamage = 10;
 
     public float playerHealth=100;
-    public float playerMaxHealth = 100;
+    float playerMaxHealth = 100;
 
 
 
@@ -34,6 +37,13 @@ public class PlayerMovement : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
+        {
+            deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
+            deityReference.GetComponent<GodController>().playerReference = gameObject;
+            gameObject.SetActive(false);
+        }
+
         if (Input.GetMouseButtonDown(0)&& PV.IsMine)
         {
             //  photonView.RPC("attack", RpcTarget.All);
@@ -69,7 +79,7 @@ public class PlayerMovement : MonoBehaviourPun
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
 
-        if (Physics2D.OverlapCircle(mousePos, 1, resourcesMask) != null)
+        if (Physics2D.OverlapCircle(mousePos, 0.5f, resourcesMask) != null)
         {
             Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
 
