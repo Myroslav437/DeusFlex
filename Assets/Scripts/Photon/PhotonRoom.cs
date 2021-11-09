@@ -20,6 +20,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public int playersInRoom;
     public int myNumberInRoom;
 
+    public bool isHostedRoom = false;
+
     private void Awake()
     {
         if (PhotonRoom.room == null) {
