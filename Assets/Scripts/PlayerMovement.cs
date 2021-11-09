@@ -41,7 +41,13 @@ public class PlayerMovement : MonoBehaviourPun
         {
             deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
             deityReference.GetComponent<GodController>().playerReference = gameObject;
-            gameObject.SetActive(false);
+
+            photonView.RPC("disableSelf", RpcTarget.All);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
+        {
+            transform.position= new Vector2(1, 1);
         }
 
         if (Input.GetMouseButtonDown(0)&& PV.IsMine)
@@ -98,5 +104,12 @@ public class PlayerMovement : MonoBehaviourPun
         {
             carriableJoint.enabled = false;
         }
+    }
+
+    [PunRPC]
+    void disableSelf()
+    {
+        gameObject.SetActive(false);
+
     }
 }

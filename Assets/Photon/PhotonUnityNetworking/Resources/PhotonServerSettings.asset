@@ -40,6 +40,10 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - attack
+  - ascend
+  - descend
+  - disableSelf
+  - enableSelf
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

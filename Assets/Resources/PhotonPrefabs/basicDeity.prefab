@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9127216319348593165}
   - component: {fileID: 6044169329728072126}
   - component: {fileID: 5318868493894136379}
+  - component: {fileID: 740258803156115568}
   m_Layer: 0
   m_Name: basicDeity
   m_TagString: Untagged
@@ -100,7 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerReference: {fileID: 0}
-  godCam: {fileID: 7384678644591135181}
   level1Skills:
   - {fileID: 7384678643326361360}
   - {fileID: 7384678642819296871}
@@ -129,10 +129,27 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 740258803156115568}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &740258803156115568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2182445110219445836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3150049247300941960
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &41867959357589228
 Transform:
   m_ObjectHideFlags: 0
@@ -401,7 +418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3517607565899319479
 Transform:
   m_ObjectHideFlags: 0

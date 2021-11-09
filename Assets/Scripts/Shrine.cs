@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shrine : MonoBehaviour
+public class Shrine : MonoBehaviour, IPunObservable
 {
 
     double[,] resourcesNeeded = { { 200, 0, 0, 0 }, { 400, 200, 0, 0 }, { 800, 400, 50, 0 }, { 1600, 800, 100, 5 } };
@@ -71,4 +71,16 @@ public class Shrine : MonoBehaviour
         return currentLevel;
     }
 
+    //RPC would suit this better
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(currentResources);
+        }
+        else
+        {
+            this.currentResources = (double[])stream.ReceiveNext();
+        }
+    }
 }

@@ -9,7 +9,8 @@ public class GodController : MonoBehaviourPun
     public GameObject playerReference;
 
     private PhotonView PV;
-    public Camera godCam;
+   // public Camera godCam;
+   // public GameObject SkillsAndUI;
 
     public GameObject[] level1Skills;
     public GameObject[] level2Skills;
@@ -23,9 +24,15 @@ public class GodController : MonoBehaviourPun
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        disableAllSkills();
 
-        enableFirstLevel();
+
+        if (PV.IsMine)
+        {
+            SetActiveAllChildren(this.transform, true);
+
+            disableAllSkills();
+            enableFirstLevel();
+        }
     }
 
     // Update is called once per frame
@@ -38,13 +45,21 @@ public class GodController : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
         {
-            playerReference.SetActive(true);
+            photonView.RPC("enableSelf", RpcTarget.All);
+
             PhotonNetwork.Destroy(gameObject);
         }
 
         // this should be done by events, but i dont care
         synchLevels();
 
+    }
+
+
+    [PunRPC]
+    void enableSelf() 
+    {
+        playerReference.SetActive(true);
     }
 
     void synchLevels()
@@ -150,5 +165,15 @@ public class GodController : MonoBehaviourPun
         disableSkills(level2Skills);
         disableSkills(level3Skills);
         disableSkills(level4Skills);
+    }
+
+    private void SetActiveAllChildren(Transform transform, bool value)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(value);
+
+            SetActiveAllChildren(child, value);
+        }
     }
 }
