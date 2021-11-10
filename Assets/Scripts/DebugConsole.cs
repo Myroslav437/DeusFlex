@@ -9,9 +9,11 @@ public class DebugConsole : MonoBehaviour
 
     private void Start()
     {
+        /*
         if (Application.isEditor) {
             GetComponent<DebugConsole>().enabled = false;
         }
+        */
     }
 
     void OnEnable()

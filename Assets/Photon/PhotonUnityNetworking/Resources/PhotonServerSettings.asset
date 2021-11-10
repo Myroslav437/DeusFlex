@@ -51,6 +51,8 @@ MonoBehaviour:
   - RPC_SetPlayerInfo
   - RPC_SendMasterPlayerInfo
   - RPC_UpdatePVID
+  - RPC_AddMessage
+  - RPC_SetChatHistory
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
