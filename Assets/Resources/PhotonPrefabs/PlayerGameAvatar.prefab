@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nickName: 
+  nickNameBG: {fileID: 7606780480961588375}
 --- !u!61 &4242829166854032435
 BoxCollider2D:
   m_ObjectHideFlags: 0

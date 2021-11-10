@@ -29,9 +29,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Trying to connect to the Master server");
-        PhotonNetwork.ConnectUsingSettings();   //Connect to the Master photon server
-        PhotonNetwork.ConnectToRegion("eu");
+        if (!PhotonNetwork.IsConnected) { 
+            Debug.Log("Trying to connect to the Master server");
+            PhotonNetwork.ConnectUsingSettings();   //Connect to the Master photon server
+            PhotonNetwork.ConnectToRegion("eu");
+        }
 
         offlineButton.SetActive(true);
         joinButton.SetActive(false);
@@ -103,7 +105,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         string roomName = GenerateRoomName(roomNameSize);
 
         RoomOptions roomOps = new RoomOptions() { IsVisible = false, IsOpen = true, MaxPlayers = roomMaxPlayers };
-        PhotonNetwork.CreateRoom(roomName);
+        PhotonNetwork.CreateRoom(roomName, roomOps);
         PhotonRoom.room.isHostedRoom = true;
     }
 

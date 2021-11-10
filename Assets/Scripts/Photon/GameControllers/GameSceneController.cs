@@ -17,8 +17,10 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void Start()
     {
         Debug.Log(LocalPlayerInfo.LPI.myNickName + " started RPC_SetNickName");
-        GameObject avatar = LocalPlayerInfo.LPI.networkPlayer.GetComponent<PhotonPlayer>().myAvatar;
+        PhotonPlayer player = LocalPlayerInfo.LPI.networkPlayer.GetComponent<PhotonPlayer>();
+        GameObject avatar = player.myAvatar;
         int avatarID = avatar.GetComponent<PhotonView>().ViewID;
+        PV.RPC("RPC_UpdatePVID", RpcTarget.AllBufferedViaServer, PhotonNetwork.LocalPlayer.ActorNumber, player.GetComponent<PhotonView>().ViewID);
         PV.RPC("RPC_SetNickName", RpcTarget.AllBufferedViaServer, avatarID, LocalPlayerInfo.LPI.myNickName);
 
         Debug.Log(System.Environment.NewLine);
@@ -43,6 +45,12 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
         NicknameLabel nl = obj.GetComponent<NicknameLabel>();
         nl.nickName = nickName;
         nl.UpdateText();
+    }
+
+    [PunRPC]
+    void RPC_UpdatePVID(int actorID, int newPVID) {
+        Debug.Log("Executing RPC_UpdatePVID for " + actorID.ToString());
+        TeamController.TC.playersData[actorID].playerPVID = newPVID;
     }
 
 

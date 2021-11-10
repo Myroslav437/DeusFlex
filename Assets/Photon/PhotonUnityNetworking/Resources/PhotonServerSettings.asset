@@ -50,6 +50,7 @@ MonoBehaviour:
   - RPC_PlayerInfoUpdate
   - RPC_SetPlayerInfo
   - RPC_SendMasterPlayerInfo
+  - RPC_UpdatePVID
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

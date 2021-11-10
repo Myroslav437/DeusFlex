@@ -13,22 +13,23 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
     private PhotonView PV;
 
     public Text roomCountDisplay;
-    public Text roomCountDisplayLabel;
+    public Text waitingForPlayersLabel;
     public Text countDownDisplay;
-    public Text countDownDisplayLabel;
+    // public Text countDownDisplayLabel;
     public Text playersNicks;
     public Text chooseYourTeam;
     public Text WaitingRoomLabel;
     public Text GetReadyLabel;
-    public Text BlueTeamInfo;
-    public Text RedTeamInfo;
-    public Text PlayersNickNames;
+    public Text TeamInfo;
+    // public Text BlueTeamInfo;
+    // public Text RedTeamInfo;
+    // public Text PlayersNickNames;
 
 
     public GameObject redSquare;
     public GameObject blueSquare;
 
-    public GameObject cancelButton;
+    // public GameObject cancelButton;
 
     public int multiplayerScene;
     public int menuScene;
@@ -72,6 +73,13 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         GameObject avatar = LocalPlayerInfo.LPI.networkPlayer.GetComponent<PhotonPlayer>().myAvatar;
         int avatarID = avatar.GetComponent<PhotonView>().ViewID;
         PV.RPC("RPC_SetNickName", RpcTarget.AllBufferedViaServer, avatarID, LocalPlayerInfo.LPI.myNickName);
+
+        if (PhotonRoom.room.isHostedRoom) {
+            WaitingRoomLabel.text = "Room " + PhotonNetwork.CurrentRoom.Name;
+        }
+        else {
+            WaitingRoomLabel.text = "";
+        }
     }
 
     void Update()
@@ -93,11 +101,11 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             chooseYourTeam.gameObject.SetActive(false);
 
             // Set Cancel button:
-            cancelButton.SetActive(false);
+            // cancelButton.SetActive(false);
 
             // Set "PlayersCount"
             roomCountDisplay.gameObject.SetActive(false);
-            roomCountDisplayLabel.gameObject.SetActive(false);
+            waitingForPlayersLabel.gameObject.SetActive(false);
 
             // Set "Waiting room"
             WaitingRoomLabel.gameObject.SetActive(false);
@@ -106,19 +114,20 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             GetReadyLabel.gameObject.SetActive(true);
 
             // Set PlayersNickNames
-            PlayersNickNames.gameObject.SetActive(false);
+            // PlayersNickNames.gameObject.SetActive(false);
 
             // Set BlueTeamInfo and RedTeamInfo:
-            BlueTeamInfo.gameObject.SetActive(true);
-            RedTeamInfo.gameObject.SetActive(true);
+            // BlueTeamInfo.gameObject.SetActive(true);
+            // RedTeamInfo.gameObject.SetActive(true);
 
             // Set "CountDown"
             countDownDisplay.gameObject.SetActive(true);
-            countDownDisplayLabel.gameObject.SetActive(true);
+            // countDownDisplayLabel.gameObject.SetActive(true);
 
             // update commands names
-            updateRedTeamList();
-            updateBlueTeamList();
+            // updateRedTeamList();
+            // updateBlueTeamList();
+            UpdateTeamInfo();
 
         }
         else if (startingMatchMaking)  { // full room
@@ -132,15 +141,15 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             chooseYourTeam.gameObject.SetActive(true);
 
             // Set Cancel button:
-            cancelButton.SetActive(false);
+            // cancelButton.SetActive(false);
 
             // Set "PlayersCount"
             roomCountDisplay.gameObject.SetActive(false);
-            roomCountDisplayLabel.gameObject.SetActive(false);
+            waitingForPlayersLabel.gameObject.SetActive(false);
 
             // Set "CountDown"
             countDownDisplay.gameObject.SetActive(false);
-            countDownDisplayLabel.gameObject.SetActive(false);
+            // countDownDisplayLabel.gameObject.SetActive(false);
 
             // Set "Waiting room"
             WaitingRoomLabel.gameObject.SetActive(false);
@@ -149,15 +158,16 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             GetReadyLabel.gameObject.SetActive(false);
 
             // Set PlayersNickNames
-            PlayersNickNames.gameObject.SetActive(false);
+            // PlayersNickNames.gameObject.SetActive(false);
 
             // Set BlueTeamInfo and RedTeamInfo:
-            BlueTeamInfo.gameObject.SetActive(true);
-            RedTeamInfo.gameObject.SetActive(true);
+            // BlueTeamInfo.gameObject.SetActive(true);
+            // RedTeamInfo.gameObject.SetActive(true);
 
             // update commands names
-            updateRedTeamList();
-            updateBlueTeamList();
+            // updateRedTeamList();
+            // updateBlueTeamList();
+            UpdateTeamInfo();
         }
         else {
             ResetTimer();
@@ -170,18 +180,18 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             chooseYourTeam.gameObject.SetActive(false);
 
             // Set Cancel button:
-            cancelButton.SetActive(true);
+            // cancelButton.SetActive(true);
 
             // Set "CountDown"
             countDownDisplay.gameObject.SetActive(false);
-            countDownDisplayLabel.gameObject.SetActive(false);
+            // countDownDisplayLabel.gameObject.SetActive(false);
 
             // Set "PlayersCount"
             roomCountDisplay.gameObject.SetActive(true);
-            roomCountDisplayLabel.gameObject.SetActive(true);
+            waitingForPlayersLabel.gameObject.SetActive(true);
 
             // Set PlayersNickNames
-            PlayersNickNames.gameObject.SetActive(true);
+            // PlayersNickNames.gameObject.SetActive(true);
 
             // Set "Waiting room"
             WaitingRoomLabel.gameObject.SetActive(true);
@@ -190,8 +200,9 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             GetReadyLabel.gameObject.SetActive(false);
 
             // Set BlueTeamInfo and RedTeamInfo:
-            BlueTeamInfo.gameObject.SetActive(false);
-            RedTeamInfo.gameObject.SetActive(false);
+            // BlueTeamInfo.gameObject.SetActive(false);
+            // RedTeamInfo.gameObject.SetActive(false);
+            UpdateTeamInfo();
         }
 
         countDownDisplay.text = string.Format("{0:00}", countDownTime);
@@ -229,19 +240,43 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         }
     }
 
+    /*
     private void updateRedTeamList() 
     {
-        RedTeamInfo.text = "Red Team" + System.Environment.NewLine;
-        string nicks = "";
-        foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
-            if (pd.Value.team == "Red") {
-                nicks += pd.Value.nickName + System.Environment.NewLine;
-            }
-        }
+         RedTeamInfo.text = "Red Team" + System.Environment.NewLine;
+         string nicks = "";
+         foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
+             if (pd.Value.team == "Red") {
+                 nicks += pd.Value.nickName + System.Environment.NewLine;
+             }
+         }
 
-        RedTeamInfo.text += nicks;
+         RedTeamInfo.text += nicks;
+    }
+    */
+
+    private void UpdateTeamInfo() 
+    {
+        if (TeamInfo.gameObject.activeSelf) { 
+            string text = "Blue Team:" + System.Environment.NewLine;
+            foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
+                if (pd.Value.team == "Blue")  {
+                    text += "   " +  pd.Value.nickName + System.Environment.NewLine;
+                }
+            }
+
+            text += System.Environment.NewLine + "Read Team:" + System.Environment.NewLine;
+            foreach (KeyValuePair<int, TeamController.PlayerData> pd in TeamController.TC.playersData) {
+                if (pd.Value.team == "Red") {
+                    text += "   " + pd.Value.nickName + System.Environment.NewLine;
+                }
+            }
+
+            TeamInfo.text = text;
+        }
     }
 
+    /*
     private void updateBlueTeamList()
     {
         BlueTeamInfo.text = "Blue Team" + System.Environment.NewLine;
@@ -254,6 +289,7 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
 
         BlueTeamInfo.text += nicks;
     }
+    */
 
     public override void OnJoinedRoom()
     {
@@ -290,7 +326,7 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
             TeamController.TC.RemovePlayerInfo(other.ActorNumber);
             TeamController.TC.GetComponent<PhotonView>().RPC("RPC_SendMasterPlayerInfo", RpcTarget.MasterClient);
         }
-        PhotonNetwork.DestroyPlayerObjects(other);
+        //PhotonNetwork.DestroyPlayerObjects(other);
 
         PV.RPC("RPC_PlayerCountUpdate", RpcTarget.AllViaServer);
         PlayerNicknamesUpdate();
@@ -349,7 +385,7 @@ public class WaitingRoomController : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(multiplayerScene);
     }
 
-    public void OnCancelButtonPressed() 
+    public void ReturnToMenu()  //OnCancelButtonPressed
     {
         Destroy(PhotonHelper.PH.gameObject);
         Destroy(PhotonRoom.room.gameObject);
