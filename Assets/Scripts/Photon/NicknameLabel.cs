@@ -16,12 +16,12 @@ public class NicknameLabel : MonoBehaviour
 
     public void PaintRed() 
     {
-        nickNameBG.color = new Color(0.6f, 0, 0, 0.35f);
+        nickNameBG.color = new Color(0.6f, 0, 0, 0.4f);
     }
 
     public void PaintBlue() 
     {
-        nickNameBG.color = new Color(0, 0, 0.6f, 0.35f);
+        nickNameBG.color = new Color(0, 0, 0.6f, 0.4f);
     }
 
     public void PaintDefault() 

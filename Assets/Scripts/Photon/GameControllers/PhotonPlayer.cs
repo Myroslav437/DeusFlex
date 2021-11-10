@@ -9,6 +9,11 @@ public class PhotonPlayer : MonoBehaviour
     PhotonView PV;
     public GameObject myAvatar;
 
+    private void OnEnable()
+    {
+        PV = GetComponent<PhotonView>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +23,6 @@ public class PhotonPlayer : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        PV = GetComponent<PhotonView>();
-    }
 
     public GameObject InstantiateAvatar(string prefabPath) 
     {
@@ -50,7 +51,10 @@ public class PhotonPlayer : MonoBehaviour
         int avatarPVID = newAvatar.GetComponent<PhotonView>().ViewID;
 
         PV.RPC("RPC_ConnectAvatar", RpcTarget.AllBufferedViaServer, myPVID, avatarPVID);
- 
+        
+        // -------------
+        myAvatar.transform.Find("Camera").gameObject.SetActive(true);
+
         return newAvatar;
     }
 

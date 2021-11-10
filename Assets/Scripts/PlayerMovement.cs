@@ -1,58 +1,114 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPun
 {
     private PhotonView PV;
-    private Rigidbody2D RB;
+    private Rigidbody2D rb;
+    private DistanceJoint2D carriableJoint;
+    private Animator anim;
+    public Camera playerCam;
+
+    GameObject deityReference;
+
+    public LayerMask resourcesMask;
+
     public float movementSpeed;
-    public float rotationSpeed;
+
+    public double playerDamage = 10;
+
+    public float playerHealth=100;
+    float playerMaxHealth = 100;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        RB = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        anim = GameObject.Find("model").GetComponent<Animator>();
+        carriableJoint = GetComponent<DistanceJoint2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
+        {
+            deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
+            deityReference.GetComponent<GodController>().playerReference = gameObject;
+
+            photonView.RPC("disableSelf", RpcTarget.All);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
+        {
+            transform.position= new Vector2(1, 1);
+        }
+
+        if (Input.GetMouseButtonDown(0) && PV.IsMine)
+        {
+            photonView.RPC("attack", RpcTarget.MasterClient);
+        }
     }
 
     private void FixedUpdate()
     {
         if (PV.IsMine) {
             BasicMovement();
-            BasicRotation();
         }
     }
 
     void BasicMovement() 
     {
+       //Needs formatting
 
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
 
-        RB.MovePosition(RB.position + movementVector * movementSpeed * Time.deltaTime);
-
+        if (rb.velocity.y == 0f)
+        {
+            rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
+            anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
+        }
     }
 
-    void BasicRotation()
+
+    //[PunRPC]
+    void attack()
     {
-        /*
-        // convert mouse position into world coordinates
-        Vector2 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
-        // get direction you want to point at
-        Vector2 direction = (mouseScreenPosition - (Vector2)transform.position).normalized;
 
-        // set vector of transform directly
-        transform.up = direction;
-        */
+        if (Physics2D.OverlapCircle(mousePos, 0.5f, resourcesMask) != null)
+        {
+            Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
+
+            if(hitObject.tag.Equals("ResourceSource"))
+            hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
+
+            if (hitObject.tag.Equals("CarriableResource"))
+            {
+                hitObject.GetComponent<PhotonView>().RequestOwnership();
+                carriableJoint.enabled = true;
+                carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
+            }
+
+        }
+        else
+        {
+            carriableJoint.enabled = false;
+        }
+    }
+
+    [PunRPC]
+    void disableSelf()
+    {
+        gameObject.SetActive(false);
 
     }
 }

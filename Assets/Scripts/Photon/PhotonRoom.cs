@@ -94,13 +94,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void OnWaitSceneLoaded()
     {
         GameObject player = CreatePlayer();
-        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerGameAvatar"));
+         // player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerGameAvatar"));
+        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerAvatar"));
     }
 
     void OnGameSceneLoaded()
     {
         GameObject player = CreatePlayer();
-        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerGameAvatar"));
+        // player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerGameAvatar"));
+        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerAvatar"));
     }
 
     void StartGame()
