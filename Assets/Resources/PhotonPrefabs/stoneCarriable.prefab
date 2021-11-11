@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4762772454380990876}
   - component: {fileID: -1369853387792943747}
   - component: {fileID: 1938556958234449754}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: stoneCarriable
   m_TagString: CarriableResource
   m_Icon: {fileID: 0}

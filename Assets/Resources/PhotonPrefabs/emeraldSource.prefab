@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4305616630178873857}
   - component: {fileID: 8615167116559555232}
   - component: {fileID: 7069484627892276962}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: emeraldSource
   m_TagString: ResourceSource
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.091091156, y: -2.2827158}

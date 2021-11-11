@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2664160152779148057}
   - component: {fileID: 2664160152779148054}
   - component: {fileID: 7545597353489454007}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: goldSource
   m_TagString: ResourceSource
   m_Icon: {fileID: 0}

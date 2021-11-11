@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5072247011765408224}
   - component: {fileID: 5072247011765408227}
   - component: {fileID: 621345690615266469}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: woodSource
   m_TagString: ResourceSource
   m_Icon: {fileID: 0}

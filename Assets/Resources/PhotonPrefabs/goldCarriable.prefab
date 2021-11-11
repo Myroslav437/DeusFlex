@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1729632789393019510}
   - component: {fileID: 5267687565728999791}
   - component: {fileID: 4539904660132432712}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: goldCarriable
   m_TagString: CarriableResource
   m_Icon: {fileID: 0}

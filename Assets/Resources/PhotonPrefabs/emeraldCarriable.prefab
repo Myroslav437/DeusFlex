@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1946237749955421190}
   - component: {fileID: 1918434173447361743}
   - component: {fileID: 6999068835809084528}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: emeraldCarriable
   m_TagString: CarriableResource
   m_Icon: {fileID: 0}

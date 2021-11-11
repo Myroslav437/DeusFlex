@@ -52,7 +52,8 @@ public class PlayerMovement : MonoBehaviourPun
 
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
-            photonView.RPC("attack", RpcTarget.MasterClient);
+            //  photonView.RPC("attack", RpcTarget.MasterClient);
+            attack();
         }
     }
 
@@ -78,7 +79,7 @@ public class PlayerMovement : MonoBehaviourPun
     }
 
 
-    [PunRPC]
+    //[PunRPC]
     void attack()
     {
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
