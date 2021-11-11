@@ -66,6 +66,19 @@ public class Shrine : MonoBehaviour, IPunObservable
     void RPC_SetShrimeLevel(int ShrimePID, int newLevel) 
     {
         Shrine shr = PhotonHelper.FindObjectViaPVID(ShrimePID).GetComponent<Shrine>();
+        string godTeam = shr.shrineTeam;
+
+        foreach (KeyValuePair<int, TeamController.PlayerData> p in TeamController.TC.playersData) {
+            if (p.Value.team == godTeam && p.Value.avatarType == "God") {
+                GameObject godNetworkPlayer = PhotonHelper.FindObjectViaPVID(p.Value.playerPVID);
+                GameObject god = godNetworkPlayer.GetComponent<PhotonPlayer>().myAvatar;
+                god.GetComponent<GodController>().currentLevel = newLevel;
+
+                break;
+            }
+        }
+
+
         shr.currentLevel = newLevel;
         shr.GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];
     }

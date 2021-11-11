@@ -58,6 +58,9 @@ MonoBehaviour:
   - PRC_RotateLeft
   - PRC_RotateRight
   - RPC_SetShrimeLevel
+  - setEndGameCanvas
+  - RPC_MakeBlueWinner
+  - RPC_MakeRedWinner
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

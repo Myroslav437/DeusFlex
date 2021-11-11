@@ -152,6 +152,7 @@ MonoBehaviour:
   level4Skills:
   - {fileID: 7384678644348230196}
   movementSpeed: 20
+  currentLevel: 0
 --- !u!114 &4621385964753984024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,7 +990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerKey: 102
-  ability: {fileID: 0}
+  ability: {fileID: 11400000, guid: 0c3b79b9440db494fa52604cec50ab37, type: 2}
 --- !u!1 &7384678644564912362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,5 +1079,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c099375367d719e4c9eacd532295675f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerKey: 116
+  triggerKey: 99
   ability: {fileID: 11400000, guid: 0e52957b5ac882b4faa86763e57a1685, type: 2}

@@ -13,6 +13,7 @@ TagManager:
   - ResourceSource
   - ShrineTeam1
   - Ground
+  - PositionCanvas
   layers:
   - Default
   - TransparentFX

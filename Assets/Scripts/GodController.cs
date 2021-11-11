@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class GodController : MonoBehaviourPun
 {
-
+    //public Canvas RedWinnerCanvas;
+    //public Canvas BlueWinnerCanvas;
     // public GameObject playerReference;
 
     private PhotonView PV;
-   // public Camera godCam;
-   // public GameObject SkillsAndUI;
+    // public Camera godCam;
+    // public GameObject SkillsAndUI;
 
     public GameObject[] level1Skills;
     public GameObject[] level2Skills;
@@ -18,7 +19,7 @@ public class GodController : MonoBehaviourPun
     public GameObject[] level4Skills;
 
     public float movementSpeed;
-    int currentLevel = 0;
+    public int currentLevel = 0;
 
     private void OnEnable()
     {
@@ -53,6 +54,8 @@ public class GodController : MonoBehaviourPun
         // this should be done by events, but i dont care
         synchLevels();
 
+
+
     }
 
     /*
@@ -65,7 +68,7 @@ public class GodController : MonoBehaviourPun
 
     void synchLevels()
     {
-        currentLevel = GameObject.FindGameObjectWithTag("ShrineTeam1").GetComponent<Shrine>().getShrineLevel();
+        // currentLevel = GameObject.FindGameObjectWithTag("ShrineTeam1").GetComponent<Shrine>().getShrineLevel();
 
         switch (currentLevel)
         {
@@ -92,7 +95,7 @@ public class GodController : MonoBehaviourPun
 
     void enableFirstLevel()
     {
-        foreach(GameObject skill in level1Skills)
+        foreach (GameObject skill in level1Skills)
         {
             skill.SetActive(true);
         }
@@ -149,6 +152,36 @@ public class GodController : MonoBehaviourPun
         foreach (GameObject skill in level4Skills)
         {
             skill.SetActive(true);
+        }
+
+        if (TeamController.TC.playersData[PhotonNetwork.LocalPlayer.ActorNumber].team == "Red")
+        {
+            PV.RPC("RPC_MakeRedWinner", RpcTarget.AllBufferedViaServer);
+        }
+        else {
+            PV.RPC("RPC_MakeBlueWinner", RpcTarget.AllBufferedViaServer);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_MakeRedWinner() {
+        FindObjectOfType<GameSceneController>().RedTeamWin.gameObject.SetActive(true);
+        PlayerMovement[] movements = GameObject.FindObjectsOfType<PlayerMovement>();
+
+        foreach (PlayerMovement pm in movements) {
+            pm.enabled = false;
+        }
+    }
+
+    [PunRPC]
+    public void RPC_MakeBlueWinner()
+    {
+        FindObjectOfType<GameSceneController>().BlueTeamWin.gameObject.SetActive(true);
+        PlayerMovement[] movements = GameObject.FindObjectsOfType<PlayerMovement>();
+
+        foreach (PlayerMovement pm in movements)
+        {
+            pm.enabled = false;
         }
     }
 

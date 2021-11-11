@@ -10,6 +10,8 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     private static PhotonView PV;
     public int menuScene;
+    public Canvas RedTeamWin;
+    public Canvas BlueTeamWin;
 
     public override void OnEnable()
     {
@@ -50,7 +52,7 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
             nl.nickName = nickName;
             nl.UpdateText();
         }
-        catch(Exception e) {
+        catch(Exception) {
             Debug.Log("RPC_SetNickName for " + nickName + " Failed");
         }
     }
