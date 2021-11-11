@@ -121,11 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5072247011765408231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f66d2b0b88af67408ec1fa77854b49e, type: 3}
+  m_Script: {fileID: 11500000, guid: a2bf316c5b0241d4b87fac587972bc72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceAmount: 3
-  maxResourceHealth: 100
+  resourceAmount: 4
+  maxResourceHealth: 200
   resourceToSpawnName: woodCarriable
   resourceLeftoverName: treeTrunk
 --- !u!114 &621345690615266469

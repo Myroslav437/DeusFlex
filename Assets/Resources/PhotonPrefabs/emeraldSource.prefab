@@ -121,11 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4305616630178873861}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f66d2b0b88af67408ec1fa77854b49e, type: 3}
+  m_Script: {fileID: 11500000, guid: a2bf316c5b0241d4b87fac587972bc72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceAmount: 2
-  maxResourceHealth: 600
+  resourceAmount: 3
+  maxResourceHealth: 500
   resourceToSpawnName: emeraldCarriable
   resourceLeftoverName: stoneLeftover
 --- !u!114 &8615167116559555232

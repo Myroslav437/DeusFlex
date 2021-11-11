@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviourPun
     }
 
 
-    //[PunRPC]
+    [PunRPC]
     void attack()
     {
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
