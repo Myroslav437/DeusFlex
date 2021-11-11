@@ -6,7 +6,7 @@ using UnityEngine;
 public class GodController : MonoBehaviourPun
 {
 
-    public GameObject playerReference;
+    // public GameObject playerReference;
 
     private PhotonView PV;
    // public Camera godCam;
@@ -20,14 +20,14 @@ public class GodController : MonoBehaviourPun
     public float movementSpeed;
     int currentLevel = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         PV = GetComponent<PhotonView>();
+    }
 
-
-        if (PV.IsMine)
-        {
+    void Start()
+    {
+        if (PV.IsMine) {
             SetActiveAllChildren(this.transform, true);
 
             disableAllSkills();
@@ -45,7 +45,7 @@ public class GodController : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
         {
-            photonView.RPC("enableSelf", RpcTarget.All);
+            // photonView.RPC("enableSelf", RpcTarget.All);
 
             PhotonNetwork.Destroy(gameObject);
         }
@@ -55,12 +55,13 @@ public class GodController : MonoBehaviourPun
 
     }
 
-
+    /*
     [PunRPC]
     void enableSelf() 
     {
         playerReference.SetActive(true);
     }
+    */
 
     void synchLevels()
     {

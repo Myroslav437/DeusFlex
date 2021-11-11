@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using System;
 
 public class PhotonPlayer : MonoBehaviour
 {
@@ -31,17 +32,11 @@ public class PhotonPlayer : MonoBehaviour
         Quaternion rot = Quaternion.identity;
 
         try {
-            if (SpawnSetup.SSetup.spawnPoints.Length == 0) {
-                throw new System.NullReferenceException();
-            }
-
-            int spIdx = PhotonRoom.room.myNumberInRoom % SpawnSetup.SSetup.spawnPoints.Length;
-            Transform sp = SpawnSetup.SSetup.spawnPoints[spIdx];
-
-            pos = sp.position;
-            rot = transform.rotation;
+            pos = FindObjectOfType<SpawnSetup>().GetSpawnPoint(PhotonNetwork.LocalPlayer.ActorNumber);
+            // rot = transform.rotation;
         }
-        catch (System.NullReferenceException) {
+        catch (Exception e) {
+            // SpawnSetup not found - use default spawn point
         }
 
         GameObject newAvatar = PhotonNetwork.Instantiate(prefabPath, pos, rot, 0); // assign avatar using rpc (via photonViewId)

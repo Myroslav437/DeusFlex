@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 399382472802755139}
   - component: {fileID: 399382472802755138}
   - component: {fileID: 399382472802755140}
-  - component: {fileID: 2977564645242822252}
   - component: {fileID: 5797773825812575479}
   - component: {fileID: -7462631823221735184}
   - component: {fileID: 288073822809526354}
+  - component: {fileID: 7553181564595503071}
   m_Layer: 6
   m_Name: woodCarriable
   m_TagString: CarriableResource
@@ -109,20 +109,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2977564645242822252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 399382472802755151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e94506049139ff345847b49af1ec3183, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resource: 0
-  resourceAmout: 25
 --- !u!114 &5797773825812575479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +174,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.65, y: 1.11}
   m_EdgeRadius: 0
+--- !u!114 &7553181564595503071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399382472802755151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e90296118182442a843ea12d509ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: 0
+  resourceAmout: 25

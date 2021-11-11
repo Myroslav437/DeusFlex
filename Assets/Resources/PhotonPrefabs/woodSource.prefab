@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5072247011765408225}
   - component: {fileID: 5072247011765408230}
   - component: {fileID: 5072247011765408224}
-  - component: {fileID: 5072247011765408227}
   - component: {fileID: 621345690615266469}
+  - component: {fileID: 9154179414811495479}
   m_Layer: 3
   m_Name: woodSource
   m_TagString: ResourceSource
@@ -112,22 +112,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.8347375, y: 4.3794565}
   m_EdgeRadius: 0
---- !u!114 &5072247011765408227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5072247011765408231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f66d2b0b88af67408ec1fa77854b49e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resourceAmount: 3
-  maxResourceHealth: 100
-  resourceToSpawnName: woodCarriable
-  resourceLeftoverName: treeTrunk
 --- !u!114 &621345690615266469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +131,23 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5072247011765408227}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &9154179414811495479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5072247011765408231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bf316c5b0241d4b87fac587972bc72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceAmount: 3
+  maxResourceHealth: 100
+  resourceToSpawnName: woodCarriable
+  resourceLeftoverName: treeTrunk

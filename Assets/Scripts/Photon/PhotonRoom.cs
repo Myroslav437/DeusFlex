@@ -16,9 +16,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public int currentScene;
 
     Player[] photonPlayers;
-    public int playersInGame;
+    // public int playersInGame;
     public int playersInRoom;
-    public int myNumberInRoom;
+    // public int myNumberInRoom;
 
     public bool isHostedRoom = false;
 
@@ -60,7 +60,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
-        myNumberInRoom = playersInRoom;
+        // myNumberInRoom = playersInRoom;
         PhotonNetwork.NickName = LocalPlayerInfo.LPI.myNickName;
 
         if (!PhotonNetwork.IsMasterClient) {
@@ -102,7 +102,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         GameObject player = CreatePlayer();
         // player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerGameAvatar"));
-        player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerAvatar"));
+        //player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerAvatar"));
+
+        if (TeamController.TC.playersData[PhotonNetwork.LocalPlayer.ActorNumber].avatarType == "God") {
+            player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "basicDeity"));
+        }
+        else {
+            player.GetComponent<PhotonPlayer>().InstantiateAvatar(Path.Combine("PhotonPrefabs", "PlayerAvatar"));
+        }
     }
 
     void StartGame()

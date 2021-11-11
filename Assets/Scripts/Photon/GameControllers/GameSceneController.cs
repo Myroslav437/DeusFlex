@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -33,18 +34,23 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void RPC_SetNickName(int playerViewID, string nickName) {
         Debug.Log("Executing RPC_SetNickName for " + nickName);
 
-        PhotonView[] plArr = FindObjectsOfType<PhotonView>();
-        GameObject obj = null;
-        foreach(PhotonView pl in plArr) {
-            if (pl.ViewID == playerViewID) {
-                obj = pl.gameObject;
-                break;
+        try { 
+            PhotonView[] plArr = FindObjectsOfType<PhotonView>();
+            GameObject obj = null;
+            foreach(PhotonView pl in plArr) {
+                if (pl.ViewID == playerViewID) {
+                    obj = pl.gameObject;
+                    break;
+                }
             }
-        }
 
-        NicknameLabel nl = obj.GetComponent<NicknameLabel>();
-        nl.nickName = nickName;
-        nl.UpdateText();
+            NicknameLabel nl = obj.GetComponent<NicknameLabel>();
+            nl.nickName = nickName;
+            nl.UpdateText();
+        }
+        catch(Exception e) {
+            Debug.Log("RPC_SetNickName for " + nickName + " Failed");
+        }
     }
 
     [PunRPC]

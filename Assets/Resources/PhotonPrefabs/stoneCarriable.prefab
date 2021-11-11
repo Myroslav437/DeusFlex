@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1900075955358434160}
   - component: {fileID: 1900075955358434161}
   - component: {fileID: 1900075955358434163}
-  - component: {fileID: 1900075955358434162}
   - component: {fileID: -4762772454380990876}
   - component: {fileID: -1369853387792943747}
   - component: {fileID: 1938556958234449754}
+  - component: {fileID: 7285691631053631643}
   m_Layer: 6
   m_Name: stoneCarriable
   m_TagString: CarriableResource
@@ -109,20 +109,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1900075955358434162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900075955358434174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e94506049139ff345847b49af1ec3183, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resource: 1
-  resourceAmout: 50
 --- !u!114 &-4762772454380990876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,3 +164,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 2.67, y: 0.94}
   m_Direction: 1
+--- !u!114 &7285691631053631643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900075955358434174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e90296118182442a843ea12d509ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: 1
+  resourceAmout: 50

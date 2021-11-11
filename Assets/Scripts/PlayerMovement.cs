@@ -11,12 +11,15 @@ public class PlayerMovement : MonoBehaviourPun
     private DistanceJoint2D carriableJoint;
     private Animator anim;
     public Camera playerCam;
+    public GameObject model;
 
     GameObject deityReference;
 
     public LayerMask resourcesMask;
 
     public float movementSpeed;
+    public float jumpForce;
+    public bool allowedToJump = true;
 
     public double playerDamage = 10;
 
@@ -37,6 +40,7 @@ public class PlayerMovement : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
         {
             deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
@@ -44,15 +48,36 @@ public class PlayerMovement : MonoBehaviourPun
 
             photonView.RPC("disableSelf", RpcTarget.All);
         }
+        */
 
         if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
         {
             transform.position= new Vector2(1, 1);
         }
-
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
-            photonView.RPC("attack", RpcTarget.MasterClient);
+            // attack();
+            // photonView.RPC("attack", RpcTarget.MasterClient);
+        }
+        if (PV.IsMine) { 
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Vector3 scale = model.GetComponent<Transform>().localScale;
+                if (scale.x < 0)
+                {
+                    scale.x = scale.x * -1;
+                    model.GetComponent<Transform>().localScale = scale;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                Vector3 scale = model.GetComponent<Transform>().localScale;
+                if (scale.x > 0)
+                {
+                    scale.x = scale.x * -1;
+                    model.GetComponent<Transform>().localScale = scale;
+                }
+            }
         }
     }
 
@@ -66,15 +91,18 @@ public class PlayerMovement : MonoBehaviourPun
     void BasicMovement() 
     {
        //Needs formatting
+       if(Input.GetKey(KeyCode.A)) { }
 
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
 
+        
         if (rb.velocity.y == 0f)
         {
             rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
             anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
         }
+
     }
 
 

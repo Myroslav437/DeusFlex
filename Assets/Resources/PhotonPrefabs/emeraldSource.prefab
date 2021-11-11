@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4305616630178873856}
   - component: {fileID: 4305616630178873859}
   - component: {fileID: 4305616630178873870}
-  - component: {fileID: 4305616630178873857}
   - component: {fileID: 8615167116559555232}
+  - component: {fileID: 8512016998380312659}
   m_Layer: 3
   m_Name: emeraldSource
   m_TagString: ResourceSource
@@ -112,22 +112,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.531269, y: 3.4568114}
   m_EdgeRadius: 0
---- !u!114 &4305616630178873857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4305616630178873861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f66d2b0b88af67408ec1fa77854b49e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resourceAmount: 2
-  maxResourceHealth: 600
-  resourceToSpawnName: emeraldCarriable
-  resourceLeftoverName: stoneLeftover
 --- !u!114 &8615167116559555232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +131,23 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 4305616630178873857}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8512016998380312659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4305616630178873861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bf316c5b0241d4b87fac587972bc72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceAmount: 2
+  maxResourceHealth: 600
+  resourceToSpawnName: emeraldCarriable
+  resourceLeftoverName: stoneLeftover
