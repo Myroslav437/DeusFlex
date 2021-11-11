@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviourPun
     {
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
-        anim = GameObject.Find("model").GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         carriableJoint = GetComponent<DistanceJoint2D>();
     }
 
