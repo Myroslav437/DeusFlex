@@ -81,6 +81,42 @@ public class Shrine : MonoBehaviour, IPunObservable
 
         shr.currentLevel = newLevel;
         shr.GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];
+
+        if (currentLevel == 3) {
+            if (godTeam == "Red")
+            {
+                PV.RPC("RPC_MakeRedWinner", RpcTarget.AllBufferedViaServer);
+            }
+            else
+            {
+                PV.RPC("RPC_MakeBlueWinner", RpcTarget.AllBufferedViaServer);
+            }
+
+        }
+    }
+
+    [PunRPC]
+    public void RPC_MakeRedWinner()
+    {
+        FindObjectOfType<GameSceneController>().RedTeamWin.gameObject.SetActive(true);
+        PlayerMovement[] movements = GameObject.FindObjectsOfType<PlayerMovement>();
+
+        foreach (PlayerMovement pm in movements)
+        {
+            pm.enabled = false;
+        }
+    }
+
+    [PunRPC]
+    public void RPC_MakeBlueWinner()
+    {
+        FindObjectOfType<GameSceneController>().BlueTeamWin.gameObject.SetActive(true);
+        PlayerMovement[] movements = GameObject.FindObjectsOfType<PlayerMovement>();
+
+        foreach (PlayerMovement pm in movements)
+        {
+            pm.enabled = false;
+        }
     }
 
     bool isAbleToLevelUp()

@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviourPun
         }
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
-            // attack();
+             attack();
             // photonView.RPC("attack", RpcTarget.MasterClient);
         }
         if (PV.IsMine) {

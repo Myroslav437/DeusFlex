@@ -69,21 +69,22 @@ public class GodController : MonoBehaviourPun
     void synchLevels()
     {
         // currentLevel = GameObject.FindGameObjectWithTag("ShrineTeam1").GetComponent<Shrine>().getShrineLevel();
-
-        switch (currentLevel)
-        {
-            case (0):
-                enableFirstLevel();
-                break;
-            case (1):
-                enableSecondLevel();
-                break;
-            case (2):
-                enableThirdLevel();
-                break;
-            case (3):
-                enableFourthLevel();
-                break;
+        if (PV.IsMine) { 
+            switch (currentLevel)
+            {
+                case (0):
+                    enableFirstLevel();
+                    break;
+                case (1):
+                    enableSecondLevel();
+                    break;
+                case (2):
+                    enableThirdLevel();
+                    break;
+                case (3):
+                    enableFourthLevel();
+                    break;
+            }
         }
     }
 
@@ -152,36 +153,6 @@ public class GodController : MonoBehaviourPun
         foreach (GameObject skill in level4Skills)
         {
             skill.SetActive(true);
-        }
-
-        if (TeamController.TC.playersData[PhotonNetwork.LocalPlayer.ActorNumber].team == "Red")
-        {
-            PV.RPC("RPC_MakeRedWinner", RpcTarget.AllBufferedViaServer);
-        }
-        else {
-            PV.RPC("RPC_MakeBlueWinner", RpcTarget.AllBufferedViaServer);
-        }
-    }
-
-    [PunRPC]
-    public void RPC_MakeRedWinner() {
-        FindObjectOfType<GameSceneController>().RedTeamWin.gameObject.SetActive(true);
-        PlayerMovement[] movements = GameObject.FindObjectsOfType<PlayerMovement>();
-
-        foreach (PlayerMovement pm in movements) {
-            pm.enabled = false;
-        }
-    }
-
-    [PunRPC]
-    public void RPC_MakeBlueWinner()
-    {
-        FindObjectOfType<GameSceneController>().BlueTeamWin.gameObject.SetActive(true);
-        PlayerMovement[] movements = GameObject.FindObjectsOfType<PlayerMovement>();
-
-        foreach (PlayerMovement pm in movements)
-        {
-            pm.enabled = false;
         }
     }
 

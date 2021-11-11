@@ -2998,7 +2998,7 @@ MonoBehaviour:
   blueSquare: {fileID: 1575876821}
   multiplayerScene: 2
   menuScene: 0
-  roomSize: 4
+  roomSize: 6
   timeToWait: 5
 --- !u!114 &852640313
 MonoBehaviour:
