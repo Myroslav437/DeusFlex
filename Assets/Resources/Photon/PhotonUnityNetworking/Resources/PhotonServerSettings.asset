@@ -55,6 +55,8 @@ MonoBehaviour:
   - RPC_SetChatHistory
   - disableSelf
   - enableSelf
+  - PRC_RotateLeft
+  - PRC_RotateRight
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

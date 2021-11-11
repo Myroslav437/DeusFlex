@@ -9,6 +9,10 @@ TagManager:
   - ChooseYourTeam
   - TeamBluePlane
   - TeamRedPlane
+  - CarriableResource
+  - ResourceSource
+  - ShrineTeam1
+  - Ground
   layers:
   - Default
   - TransparentFX

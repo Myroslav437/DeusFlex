@@ -4,10 +4,12 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     private static PhotonView PV;
+    public int menuScene;
 
     public override void OnEnable()
     {
@@ -57,6 +59,16 @@ public class GameSceneController : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void RPC_UpdatePVID(int actorID, int newPVID) {
         Debug.Log("Executing RPC_UpdatePVID for " + actorID.ToString());
         TeamController.TC.playersData[actorID].playerPVID = newPVID;
+    }
+
+    public void onReturnToMenuButtonPressed() 
+    {
+        Destroy(PhotonHelper.PH.gameObject);
+        Destroy(PhotonRoom.room.gameObject);
+        Destroy(TeamController.TC.gameObject);
+
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(menuScene);
     }
 
 

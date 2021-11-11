@@ -11,7 +11,9 @@ public class PlayerMovement : MonoBehaviourPun
     private DistanceJoint2D carriableJoint;
     private Animator anim;
     public Camera playerCam;
-    public GameObject model;
+    public GameObject body;
+    public GameObject leg1;
+    public GameObject leg2;
 
     GameObject deityReference;
 
@@ -23,7 +25,7 @@ public class PlayerMovement : MonoBehaviourPun
 
     public double playerDamage = 10;
 
-    public float playerHealth=100;
+    public float playerHealth = 100;
     float playerMaxHealth = 100;
 
 
@@ -33,7 +35,7 @@ public class PlayerMovement : MonoBehaviourPun
     {
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
-        anim = GameObject.Find("model").GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         carriableJoint = GetComponent<DistanceJoint2D>();
     }
 
@@ -52,33 +54,82 @@ public class PlayerMovement : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
         {
-            transform.position= new Vector2(1, 1);
+            transform.position = new Vector2(1, 1);
         }
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
             // attack();
             // photonView.RPC("attack", RpcTarget.MasterClient);
         }
-        if (PV.IsMine) { 
+        if (PV.IsMine) {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                Vector3 scale = model.GetComponent<Transform>().localScale;
-                if (scale.x < 0)
+                Vector3 bodyScale = body.GetComponent<Transform>().localScale;
+                Vector3 leg1Scale = leg1.GetComponent<Transform>().localScale;
+                Vector3 leg2Scale = leg2.GetComponent<Transform>().localScale;
+                if (bodyScale.x < 0)
                 {
-                    scale.x = scale.x * -1;
-                    model.GetComponent<Transform>().localScale = scale;
+                    PV.RPC("PRC_RotateLeft", RpcTarget.AllViaServer, PV.ViewID);
                 }
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-                Vector3 scale = model.GetComponent<Transform>().localScale;
-                if (scale.x > 0)
+                Vector3 bodyScale = body.GetComponent<Transform>().localScale;
+                if (bodyScale.x > 0)
                 {
-                    scale.x = scale.x * -1;
-                    model.GetComponent<Transform>().localScale = scale;
+                    PV.RPC("PRC_RotateRight", RpcTarget.AllViaServer, PV.ViewID);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (allowedToJump) {
+                    Vector2 movementVector = new Vector2(0, 1);
+
+                    if (rb.velocity.x == 0f) {
+                        rb.MovePosition(rb.position + movementVector * jumpForce);
+                    }
+
+                    // rb.AddForce(Vector2.right * jumpForce, ForceMode2D.Impulse);
+                    allowedToJump = false;
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void PRC_RotateLeft(int PID) 
+    {
+        PlayerMovement otherPlayerMovement = PhotonHelper.FindObjectViaPVID(PID).GetComponent<PlayerMovement>();
+        Vector3 bodyScale = otherPlayerMovement.body.GetComponent<Transform>().localScale;
+        Vector3 leg1Scale = otherPlayerMovement.leg1.GetComponent<Transform>().localScale;
+        Vector3 leg2Scale = otherPlayerMovement.leg2.GetComponent<Transform>().localScale;
+        if (bodyScale.x < 0)
+        {
+            bodyScale.x = bodyScale.x * -1;
+            leg1Scale.x = leg1Scale.x * -1;
+            leg2Scale.x = leg2Scale.x * -1;
+        }
+        otherPlayerMovement.body.GetComponent<Transform>().localScale = bodyScale;
+        otherPlayerMovement.leg1.GetComponent<Transform>().localScale = leg1Scale;
+        otherPlayerMovement.leg2.GetComponent<Transform>().localScale = leg2Scale;
+    }
+
+    [PunRPC]
+    public void PRC_RotateRight(int PID)
+    {
+        PlayerMovement otherPlayerMovement = PhotonHelper.FindObjectViaPVID(PID).GetComponent<PlayerMovement>();
+        Vector3 bodyScale = otherPlayerMovement.body.GetComponent<Transform>().localScale;
+        Vector3 leg1Scale = otherPlayerMovement.leg1.GetComponent<Transform>().localScale;
+        Vector3 leg2Scale = otherPlayerMovement.leg2.GetComponent<Transform>().localScale;
+        if (bodyScale.x > 0)
+        {
+            bodyScale.x = bodyScale.x * -1;
+            leg1Scale.x = leg1Scale.x * -1;
+            leg2Scale.x = leg2Scale.x * -1;
+        }
+        otherPlayerMovement.body.GetComponent<Transform>().localScale = bodyScale;
+        otherPlayerMovement.leg1.GetComponent<Transform>().localScale = leg1Scale;
+        otherPlayerMovement.leg2.GetComponent<Transform>().localScale = leg2Scale;
     }
 
     private void FixedUpdate()
@@ -91,8 +142,6 @@ public class PlayerMovement : MonoBehaviourPun
     void BasicMovement() 
     {
        //Needs formatting
-       if(Input.GetKey(KeyCode.A)) { }
-
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
 
@@ -104,7 +153,6 @@ public class PlayerMovement : MonoBehaviourPun
         }
 
     }
-
 
     //[PunRPC]
     void attack()
@@ -138,5 +186,16 @@ public class PlayerMovement : MonoBehaviourPun
     {
         gameObject.SetActive(false);
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "CarriableResource" ||
+            collision.gameObject.tag == "Ground" ||
+            collision.gameObject.tag == "Player" ||
+            collision.gameObject.tag == "CarriableResource") 
+        {
+            allowedToJump = true;
+        }
     }
 }
