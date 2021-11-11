@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,27 +12,36 @@ public class Shrine : MonoBehaviour, IPunObservable
 
     int currentLevel = 0;
     int levelCap = 3;
+    private PhotonView PV;
 
+    public string shrineTeam = "unknown";
     public Sprite[] levelSprites;
 
     void Start()
     {
+        PV = GetComponent<PhotonView>();
         GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collidedObject = collision.gameObject;
+        try
+        {
+            if ((collidedObject.GetComponent<CarriableResource>() != null) && (checkSameTeam()))
+            {
 
-        if (collidedObject.GetComponent<CarriableResource>() != null)
+                addResource(collidedObject);
+                TryTolevelUp();
+
+                PhotonNetwork.Destroy(collidedObject.gameObject);
+
+            }
+        }catch(Exception e)
         {
 
-            addResource(collidedObject);
-            TryTolevelUp();
-
-            PhotonNetwork.Destroy(collidedObject.gameObject);
-           
         }
+      
     }
 
     void addResource(GameObject collectedResource)
@@ -48,9 +58,16 @@ public class Shrine : MonoBehaviour, IPunObservable
         if (isAbleToLevelUp()&&currentLevel<levelCap)
         {
             currentLevel++;
-            GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];
-
+            PV.RPC("RPC_SetShrimeLevel", RpcTarget.AllBufferedViaServer, PV.ViewID, currentLevel);
         }
+    }
+
+    [PunRPC]
+    void RPC_SetShrimeLevel(int ShrimePID, int newLevel) 
+    {
+        Shrine shr = PhotonHelper.FindObjectViaPVID(ShrimePID).GetComponent<Shrine>();
+        shr.currentLevel = newLevel;
+        shr.GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];
     }
 
     bool isAbleToLevelUp()
@@ -82,5 +99,10 @@ public class Shrine : MonoBehaviour, IPunObservable
         {
             this.currentResources = (double[])stream.ReceiveNext();
         }
+    }
+
+    bool checkSameTeam()
+    {
+           return  TeamController.TC.playersData[PhotonNetwork.LocalPlayer.ActorNumber].team == shrineTeam;
     }
 }

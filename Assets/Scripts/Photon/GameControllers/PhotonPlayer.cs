@@ -6,7 +6,7 @@ using System.IO;
 
 public class PhotonPlayer : MonoBehaviour
 {
-    PhotonView PV;
+    public PhotonView PV;
     public GameObject myAvatar;
 
     private void OnEnable()

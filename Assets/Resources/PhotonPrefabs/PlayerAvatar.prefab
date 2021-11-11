@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8342897855164686057}
   - component: {fileID: 512101955104672241}
   - component: {fileID: 2174246898054741490}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TextLable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 8826107619786883703}
   - component: {fileID: -5181241817179407316}
   - component: {fileID: 7175167039154539422}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlayerAvatar
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ MonoBehaviour:
   playerCam: {fileID: 6533396418070670066}
   resourcesMask:
     serializedVersion: 2
-    m_Bits: 392
+    m_Bits: 2440
   movementSpeed: 20
   playerDamage: 10
   playerHealth: 100
@@ -278,6 +278,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 1
   ObservedComponents:
+  - {fileID: 6533396417521525831}
   - {fileID: -5181241817179407316}
   - {fileID: 7175167039154539422}
   sceneViewId: 0
@@ -329,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6533396417668866354}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396417817365511}
   - component: {fileID: 6533396417817365512}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +445,7 @@ GameObject:
   - component: {fileID: 6533396418070670064}
   - component: {fileID: 6533396418070670066}
   - component: {fileID: 6533396418070670065}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396418598246055}
   - component: {fileID: 6533396418598246056}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -611,7 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396418735787271}
   - component: {fileID: 6533396418735787272}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396418817610934}
   - component: {fileID: 6533396418817610935}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Leg (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -777,7 +778,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3326595684728351420}
   - component: {fileID: 5161991997383109103}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TextBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}

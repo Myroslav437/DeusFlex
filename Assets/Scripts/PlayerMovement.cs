@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviourPun
+public class PlayerMovement : MonoBehaviourPun, IPunObservable
 {
     private PhotonView PV;
     private Rigidbody2D rb;
@@ -18,12 +18,12 @@ public class PlayerMovement : MonoBehaviourPun
 
     public float movementSpeed;
 
-    public double playerDamage = 10;
+    public float playerDamage = 10;
 
     public float playerHealth=100;
     float playerMaxHealth = 100;
 
-
+    bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,30 +37,37 @@ public class PlayerMovement : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
-        {
-            deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
-            deityReference.GetComponent<GodController>().playerReference = gameObject;
+        //if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
+        //{
+        //    deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
+        //    deityReference.GetComponent<GodController>().playerReference = gameObject;
+        //
+        //    photonView.RPC("disableSelf", RpcTarget.MasterClient);
+        //}
 
-            photonView.RPC("disableSelf", RpcTarget.All);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
-        {
-            transform.position= new Vector2(1, 1);
-        }
-
-        if (Input.GetMouseButtonDown(0) && PV.IsMine)
-        {
-            //  photonView.RPC("attack", RpcTarget.MasterClient);
-            attack();
-        }
+       // if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
+       // {
+       //     transform.position= new Vector2(1, 1);
+       // }
     }
 
     private void FixedUpdate()
     {
-        if (PV.IsMine) {
-            BasicMovement();
+        if (playerHealth <= 0)
+            isDead = true;
+
+        if (!isDead)
+        {
+            if (PV.IsMine)
+            {
+                BasicMovement();
+            }
+
+            if (Input.GetMouseButtonDown(0) && PV.IsMine)
+            {
+                //  photonView.RPC("attack", RpcTarget.MasterClient);
+                attack();
+            }
         }
     }
 
@@ -87,29 +94,75 @@ public class PlayerMovement : MonoBehaviourPun
 
         if (Physics2D.OverlapCircle(mousePos, 0.5f, resourcesMask) != null)
         {
-            Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
+            Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 0.5f, resourcesMask);
 
-            if(hitObject.tag.Equals("ResourceSource"))
-            hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
+            if (hitObject.tag.Equals("ResourceSource"))
+            {
+                hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
+            }
+            
 
             if (hitObject.tag.Equals("CarriableResource"))
             {
                 hitObject.GetComponent<PhotonView>().RequestOwnership();
+
                 carriableJoint.enabled = true;
                 carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
             }
 
+            if (hitObject.tag.Equals("player"))
+            {
+                //if(hitObject)
+                Debug.Log("Player hitting works");
+                hitObject.GetComponent<PlayerMovement>().playerHealth -= this.playerDamage;
+                Debug.Log(hitObject.GetComponent<PlayerMovement>().playerHealth);
+                // Debug.Log(TeamController.TC.playersData[].team);
+            }
         }
         else
         {
             carriableJoint.enabled = false;
         }
+
+       
+
+
     }
 
-    [PunRPC]
-    void disableSelf()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        gameObject.SetActive(false);
-
+        if (stream.IsWriting)
+        {
+            stream.SendNext(playerHealth);
+        }
+        else
+        {
+            this.playerHealth = (float)stream.ReceiveNext();
+        }
     }
+
+    public void ressurect()
+    {
+        isDead = false;
+    }
+
+    // [PunRPC]
+    // void connectToCarriable(GameObject carr)
+    // {
+    //     carriableJoint.enabled = true;
+    //     carriableJoint.connectedBody = carr.GetComponent<Rigidbody2D>();
+    // }
+    //
+    // [PunRPC]
+    // void disconnectFromCarriable()
+    // {
+    //     carriableJoint.enabled = false;
+    // }
+
+    //[PunRPC]
+    //void disableSelf()
+    //{
+    //    gameObject.SetActive(false);
+    //
+    //}
 }
