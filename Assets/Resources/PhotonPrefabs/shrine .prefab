@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7313232480649464199}
   - component: {fileID: 7313232480649464195}
   - component: {fileID: 7313232480649464194}
-  - component: {fileID: 6671667026136728184}
+  - component: {fileID: 733460671982585486}
   m_Layer: 6
   m_Name: 'shrine '
   m_TagString: ShrineTeam1
@@ -131,11 +131,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6671667026136728184}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6671667026136728184
+--- !u!114 &733460671982585486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,9 +144,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7313232480649464198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 499d3dd79c93d82448e2716d08dcd330, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f606cbf3d96a3b4a9274e0b630b62c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shrineTeam: unknown
   levelSprites:
   - {fileID: 21300000, guid: d9d66372d9ecbdc4ebe4edf14a314089, type: 3}
   - {fileID: 21300000, guid: 8055bd81bfbb18c40a088b5dcc46a7a2, type: 3}

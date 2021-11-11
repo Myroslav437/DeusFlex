@@ -597,12 +597,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c145d2d71656c642a42fb76bf560d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints:
-  - {fileID: 295697747}
-  - {fileID: 1799373145}
-  - {fileID: 958441195}
-  - {fileID: 634828502}
-  PV: {fileID: 0}
+  isRandom: 0
+  randomFrom: -10
+  randomTo: 10
+  randomY: 5
+  RedSpawnPoints: []
+  BlueSpawnPoints: []
 --- !u!4 &742811047
 Transform:
   m_ObjectHideFlags: 0
@@ -1243,7 +1243,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 9
+  sceneViewId: 345
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!4 &1224849994
@@ -1984,7 +1984,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 6
+  sceneViewId: 378
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1706353561
@@ -1999,6 +1999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcfe10c19bc8a6a4585ac0d2ca9e6648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuScene: 0
 --- !u!4 &1706353562
 Transform:
   m_ObjectHideFlags: 0

@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviourPun
     public GameObject leg2;
 
     GameObject deityReference;
+    public float jumpResetTime = 0.8f;
+    private float jumpResetCount = 0;
 
     public LayerMask resourcesMask;
 
@@ -42,6 +44,11 @@ public class PlayerMovement : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        jumpResetCount -= Time.deltaTime;
+        if (jumpResetCount <= 0) {
+            jumpResetCount = jumpResetTime;
+            allowedToJump = true;
+        }
         /*
         if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
         {
@@ -80,19 +87,15 @@ public class PlayerMovement : MonoBehaviourPun
                     PV.RPC("PRC_RotateRight", RpcTarget.AllViaServer, PV.ViewID);
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (allowedToJump) {
-                    Vector2 movementVector = new Vector2(0, 1);
-
-                    if (rb.velocity.x == 0f) {
-                        rb.MovePosition(rb.position + movementVector * jumpForce);
-                    }
-
-                    // rb.AddForce(Vector2.right * jumpForce, ForceMode2D.Impulse);
-                    allowedToJump = false;
-                }
-            }
+          if (Input.GetKeyDown(KeyCode.Space))
+          {
+              if (allowedToJump) {
+                  Vector2 movementVector = new Vector2(0, 1);
+                   rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                  // rb.AddForce(Vector2.right * jumpForce, ForceMode2D.Impulse);
+                  allowedToJump = false;
+              }
+          }
         }
     }
 
@@ -145,12 +148,12 @@ public class PlayerMovement : MonoBehaviourPun
         Vector2 movementVector = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         float horSpeed = movementVector.x * movementSpeed * Time.deltaTime;
 
-        
-        if (rb.velocity.y == 0f)
-        {
-            rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
+        // if (rb.velocity.y == 0f)
+        //{
+        // rb.MovePosition(rb.position + movementVector * movementSpeed * Time.deltaTime);
+        rb.AddForce( movementVector * movementSpeed * Time.deltaTime,ForceMode2D.Impulse);
             anim.SetFloat("HorSpeed", Mathf.Abs(horSpeed));
-        }
+        //}
 
     }
 
@@ -187,13 +190,22 @@ public class PlayerMovement : MonoBehaviourPun
         gameObject.SetActive(false);
 
     }
-
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "CarriableResource" ||
+           collider.tag == "Ground" ||
+           collider.tag == "Player" ||
+           collider.tag == "CarriableResource")
+        {
+            allowedToJump = true;
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "CarriableResource" ||
-            collision.gameObject.tag == "Ground" ||
-            collision.gameObject.tag == "Player" ||
-            collision.gameObject.tag == "CarriableResource") 
+        if (collision.collider.tag == "CarriableResource" ||
+            collision.collider.tag == "Ground" ||
+            collision.collider.tag == "Player" ||
+            collision.collider.tag == "CarriableResource") 
         {
             allowedToJump = true;
         }

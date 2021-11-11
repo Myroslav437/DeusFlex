@@ -705,7 +705,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  sceneViewId: 766
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &183514341
@@ -3219,9 +3219,7 @@ MonoBehaviour:
   waitScene: 1
   gameScene: 2
   currentScene: 0
-  playersInGame: 0
   playersInRoom: 0
-  myNumberInRoom: 0
   isHostedRoom: 0
 --- !u!4 &1738596914
 Transform:
@@ -3256,7 +3254,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  sceneViewId: 458
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1 &1803025003

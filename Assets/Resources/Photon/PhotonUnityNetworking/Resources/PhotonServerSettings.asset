@@ -57,6 +57,7 @@ MonoBehaviour:
   - enableSelf
   - PRC_RotateLeft
   - PRC_RotateRight
+  - RPC_SetShrimeLevel
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

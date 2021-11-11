@@ -35,7 +35,7 @@ public class PhotonPlayer : MonoBehaviour
             pos = FindObjectOfType<SpawnSetup>().GetSpawnPoint(PhotonNetwork.LocalPlayer.ActorNumber);
             // rot = transform.rotation;
         }
-        catch (Exception e) {
+        catch (Exception) {
             // SpawnSetup not found - use default spawn point
         }
 
