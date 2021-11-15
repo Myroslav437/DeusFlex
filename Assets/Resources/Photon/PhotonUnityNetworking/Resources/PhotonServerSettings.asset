@@ -61,6 +61,8 @@ MonoBehaviour:
   - setEndGameCanvas
   - RPC_MakeBlueWinner
   - RPC_MakeRedWinner
+  - attack
+  - PRC_FlipCharacter
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

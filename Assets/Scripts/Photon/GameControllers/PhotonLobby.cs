@@ -33,6 +33,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
             Debug.Log("Trying to connect to the Master server");
             PhotonNetwork.ConnectUsingSettings();   //Connect to the Master photon server
             PhotonNetwork.ConnectToRegion("eu");
+
         }
 
         offlineButton.SetActive(true);

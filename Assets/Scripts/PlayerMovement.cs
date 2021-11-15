@@ -49,15 +49,6 @@ public class PlayerMovement : MonoBehaviourPun
             jumpResetCount = jumpResetTime;
             allowedToJump = true;
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.G) && PV.IsMine)
-        {
-            deityReference = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "basicDeity"), transform.position, Quaternion.identity, 0);
-            deityReference.GetComponent<GodController>().playerReference = gameObject;
-
-            photonView.RPC("disableSelf", RpcTarget.All);
-        }
-        */
 
         if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
         {
@@ -65,18 +56,18 @@ public class PlayerMovement : MonoBehaviourPun
         }
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
-             attack();
+            
+            PV.RPC("attack", RpcTarget.AllViaServer, PV.ViewID);
             // photonView.RPC("attack", RpcTarget.MasterClient);
         }
         if (PV.IsMine) {
             if (Input.GetKeyDown(KeyCode.A))
             {
                 Vector3 bodyScale = body.GetComponent<Transform>().localScale;
-                Vector3 leg1Scale = leg1.GetComponent<Transform>().localScale;
-                Vector3 leg2Scale = leg2.GetComponent<Transform>().localScale;
+
                 if (bodyScale.x < 0)
                 {
-                    PV.RPC("PRC_RotateLeft", RpcTarget.AllViaServer, PV.ViewID);
+                    PV.RPC("PRC_FlipCharacter", RpcTarget.AllViaServer, PV.ViewID);
                 }
             }
             if (Input.GetKeyDown(KeyCode.D))
@@ -84,7 +75,7 @@ public class PlayerMovement : MonoBehaviourPun
                 Vector3 bodyScale = body.GetComponent<Transform>().localScale;
                 if (bodyScale.x > 0)
                 {
-                    PV.RPC("PRC_RotateRight", RpcTarget.AllViaServer, PV.ViewID);
+                    PV.RPC("PRC_FlipCharacter", RpcTarget.AllViaServer, PV.ViewID);
                 }
             }
           if (Input.GetKeyDown(KeyCode.Space))
@@ -100,36 +91,14 @@ public class PlayerMovement : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void PRC_RotateLeft(int PID) 
+    public void PRC_FlipCharacter(int PID) 
     {
         PlayerMovement otherPlayerMovement = PhotonHelper.FindObjectViaPVID(PID).GetComponent<PlayerMovement>();
-        Vector3 bodyScale = otherPlayerMovement.body.GetComponent<Transform>().localScale;
-        Vector3 leg1Scale = otherPlayerMovement.leg1.GetComponent<Transform>().localScale;
-        Vector3 leg2Scale = otherPlayerMovement.leg2.GetComponent<Transform>().localScale;
-        if (bodyScale.x < 0)
-        {
-            bodyScale.x = bodyScale.x * -1;
-            leg1Scale.x = leg1Scale.x * -1;
-            leg2Scale.x = leg2Scale.x * -1;
-        }
-        otherPlayerMovement.body.GetComponent<Transform>().localScale = bodyScale;
-        otherPlayerMovement.leg1.GetComponent<Transform>().localScale = leg1Scale;
-        otherPlayerMovement.leg2.GetComponent<Transform>().localScale = leg2Scale;
-    }
 
-    [PunRPC]
-    public void PRC_RotateRight(int PID)
-    {
-        PlayerMovement otherPlayerMovement = PhotonHelper.FindObjectViaPVID(PID).GetComponent<PlayerMovement>();
-        Vector3 bodyScale = otherPlayerMovement.body.GetComponent<Transform>().localScale;
-        Vector3 leg1Scale = otherPlayerMovement.leg1.GetComponent<Transform>().localScale;
-        Vector3 leg2Scale = otherPlayerMovement.leg2.GetComponent<Transform>().localScale;
-        if (bodyScale.x > 0)
-        {
-            bodyScale.x = bodyScale.x * -1;
-            leg1Scale.x = leg1Scale.x * -1;
-            leg2Scale.x = leg2Scale.x * -1;
-        }
+        Vector2 bodyScale = new Vector2(otherPlayerMovement.body.GetComponent<Transform>().localScale.x * -1, 1);
+        Vector2 leg1Scale = new Vector2(otherPlayerMovement.leg1.GetComponent<Transform>().localScale.x * -1, 1);
+        Vector2 leg2Scale = new Vector2(otherPlayerMovement.leg2.GetComponent<Transform>().localScale.x * -1, 1); 
+
         otherPlayerMovement.body.GetComponent<Transform>().localScale = bodyScale;
         otherPlayerMovement.leg1.GetComponent<Transform>().localScale = leg1Scale;
         otherPlayerMovement.leg2.GetComponent<Transform>().localScale = leg2Scale;
@@ -157,39 +126,36 @@ public class PlayerMovement : MonoBehaviourPun
 
     }
 
-    //[PunRPC]
-    void attack()
+    [PunRPC]
+    void attack(int PID)
     {
+        PlayerMovement attackingPlayerMovement = PhotonHelper.FindObjectViaPVID(PID).GetComponent<PlayerMovement>();
+
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
 
         if (Physics2D.OverlapCircle(mousePos, 0.5f, resourcesMask) != null)
         {
-            Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
+            Collider2D localHitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
+            GameObject hitObject = PhotonHelper.FindObjectViaPVID(localHitObject.GetComponent<PhotonView>().ViewID);
 
             if(hitObject.tag.Equals("ResourceSource"))
-            hitObject.GetComponent<ResourceSource>().takeDamage(playerDamage);
+            hitObject.GetComponent<ResourceSource>().takeDamage(attackingPlayerMovement.playerDamage);
 
             if (hitObject.tag.Equals("CarriableResource"))
             {
                 hitObject.GetComponent<PhotonView>().RequestOwnership();
-                carriableJoint.enabled = true;
-                carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
+                attackingPlayerMovement.carriableJoint.enabled = true;
+                attackingPlayerMovement.carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
             }
 
         }
         else
         {
-            carriableJoint.enabled = false;
+            attackingPlayerMovement.carriableJoint.enabled = false;
         }
     }
 
-    [PunRPC]
-    void disableSelf()
-    {
-        gameObject.SetActive(false);
-
-    }
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "CarriableResource" ||
