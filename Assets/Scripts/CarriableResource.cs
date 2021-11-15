@@ -12,8 +12,11 @@ public enum resourceType
     emeralds = 3
 }
 
-public class CarriableResource : MonoBehaviour
+
+
+public class CarriableResource : MonoBehaviour //, IPunObservable
 {
+    Rigidbody2D rigidbody2;
 
     public resourceType resource;
 
@@ -22,7 +25,7 @@ public class CarriableResource : MonoBehaviour
 
     void Start()
     {
-        
+        rigidbody2 = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -39,4 +42,22 @@ public class CarriableResource : MonoBehaviour
     {
         return resourceAmout;
     }
+
+   // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+   // {
+   //     if (stream.IsWriting)
+   //     {
+   //         stream.SendNext(rigidbody2.position);
+   //         stream.SendNext(rigidbody2.velocity);
+   //     }
+   //
+   //     if (stream.IsReading)
+   //     {
+   //         rigidbody2.position = (Vector2) stream.ReceiveNext();
+   //         rigidbody2.velocity = (Vector3) stream.ReceiveNext();
+   //
+   //         float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
+   //         rigidbody2.position += rigidbody2.velocity * lag;
+   //     }
+   // }
 }

@@ -152,20 +152,12 @@ public class PlayerMovement : MonoBehaviourPun
         }
         else
         {
+            
             attackingPlayerMovement.carriableJoint.enabled = false;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.tag == "CarriableResource" ||
-           collider.tag == "Ground" ||
-           collider.tag == "Player" ||
-           collider.tag == "CarriableResource")
-        {
-            allowedToJump = true;
-        }
-    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "CarriableResource" ||
@@ -175,5 +167,9 @@ public class PlayerMovement : MonoBehaviourPun
         {
             allowedToJump = true;
         }
+
+      //  if(collision.collider.tag == "CarriableResource")
+      //      collision.collider.GetComponent<PhotonView>().RequestOwnership();
+     
     }
 }
