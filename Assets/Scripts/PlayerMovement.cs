@@ -150,7 +150,8 @@ public class PlayerMovement : MonoBehaviourPun
             if (carriedResRef != null)
             {
                 attackingPlayerMovement.carriedResRef.GetComponent<CarriableResource>().isCarried = false;
-                attackingPlayerMovement.carriableJoint.connectedBody = null; 
+                attackingPlayerMovement.carriableJoint.connectedBody = null;
+                Debug.Log("Freed carriable flag.");
             }
             attackingPlayerMovement.carriableJoint.enabled = false;
         }
@@ -190,24 +191,4 @@ public class PlayerMovement : MonoBehaviourPun
      
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        triggerTransferOwner(collision);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        triggerTransferOwner(collision);
-    }
-
-    void triggerTransferOwner(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "CarriableResource")
-        {
-            CarriableResource cR = collision.gameObject.GetComponent<CarriableResource>();
-
-            if (cR.isCarried == false)
-                cR.PV.RequestOwnership();
-        }
-    }
 }

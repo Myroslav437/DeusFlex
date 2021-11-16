@@ -47,21 +47,34 @@ public class CarriableResource : MonoBehaviour //, IPunObservable
         return resourceAmout;
     }
 
-   // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-   // {
-   //     if (stream.IsWriting)
-   //     {
-   //         stream.SendNext(rigidbody2.position);
-   //         stream.SendNext(rigidbody2.velocity);
-   //     }
-   //
-   //     if (stream.IsReading)
-   //     {
-   //         rigidbody2.position = (Vector2) stream.ReceiveNext();
-   //         rigidbody2.velocity = (Vector3) stream.ReceiveNext();
-   //
-   //         float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
-   //         rigidbody2.position += rigidbody2.velocity * lag;
-   //     }
-   // }
+    // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    // {
+    //     if (stream.IsWriting)
+    //     {
+    //         stream.SendNext(rigidbody2.position);
+    //         stream.SendNext(rigidbody2.velocity);
+    //     }
+    //
+    //     if (stream.IsReading)
+    //     {
+    //         rigidbody2.position = (Vector2) stream.ReceiveNext();
+    //         rigidbody2.velocity = (Vector3) stream.ReceiveNext();
+    //
+    //         float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
+    //         rigidbody2.position += rigidbody2.velocity * lag;
+    //     }
+    // }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!PV.IsMine)
+        {
+            Transform collisionObjectRoot = collision.transform.root;
+            if (collisionObjectRoot.CompareTag("Player")&&(!isCarried))
+            {
+                Debug.Log("TransferedOwnership");
+                PV.TransferOwnership(PhotonNetwork.LocalPlayer);
+            }
+        }
+    }
 }
