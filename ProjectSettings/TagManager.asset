@@ -14,6 +14,7 @@ TagManager:
   - ShrineTeam1
   - Ground
   - PositionCanvas
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -22,9 +23,9 @@ TagManager:
   - Water
   - UI
   - Menu
-  - 
-  - 
-  - 
+  - Player
+  - ResourceSource
+  - CarriableResource
   - 
   - 
   - 

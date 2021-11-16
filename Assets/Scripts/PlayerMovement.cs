@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviourPun
     public GameObject leg1;
     public GameObject leg2;
 
-    GameObject deityReference;
+    public GameObject carriedResRef =null;
+  
     public float jumpResetTime = 0.8f;
     private float jumpResetCount = 0;
 
@@ -52,7 +53,7 @@ public class PlayerMovement : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.R) && PV.IsMine)
         {
-            transform.position = new Vector2(1, 1);
+            transform.position = new Vector2(-97.8f, 4.31f);
         }
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
@@ -139,24 +140,43 @@ public class PlayerMovement : MonoBehaviourPun
             Collider2D localHitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
             GameObject hitObject = PhotonHelper.FindObjectViaPVID(localHitObject.GetComponent<PhotonView>().ViewID);
 
-            if(hitObject.tag.Equals("ResourceSource"))
-            hitObject.GetComponent<ResourceSource>().takeDamage(attackingPlayerMovement.playerDamage);
+            damageResource(hitObject, attackingPlayerMovement);
 
-            if (hitObject.tag.Equals("CarriableResource"))
-            {
-                hitObject.GetComponent<PhotonView>().RequestOwnership();
-                attackingPlayerMovement.carriableJoint.enabled = true;
-                attackingPlayerMovement.carriableJoint.connectedBody = hitObject.GetComponent<Rigidbody2D>();
-            }
+            carryResource(hitObject, attackingPlayerMovement);
 
         }
         else
         {
-            
+            if (carriedResRef != null)
+            {
+                attackingPlayerMovement.carriedResRef.GetComponent<CarriableResource>().isCarried = false;
+                attackingPlayerMovement.carriableJoint.connectedBody = null; 
+            }
             attackingPlayerMovement.carriableJoint.enabled = false;
         }
     }
 
+    void damageResource(GameObject resource, PlayerMovement attackingPlayer)
+    {
+        if (resource.tag.Equals("ResourceSource"))
+            resource.GetComponent<ResourceSource>().takeDamage(attackingPlayer.playerDamage);
+    }
+
+    void carryResource(GameObject ress,PlayerMovement attackingPlayer)
+    {
+        if (ress.tag.Equals("CarriableResource"))
+        {
+            
+            CarriableResource cR = ress.GetComponent<CarriableResource>();
+            cR.PV.RequestOwnership();
+            cR.isCarried = true;
+
+            attackingPlayer.carriableJoint.enabled = true;
+            attackingPlayer.carriedResRef = ress;
+            
+            attackingPlayer.carriableJoint.connectedBody = ress.GetComponent<Rigidbody2D>();
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -167,9 +187,27 @@ public class PlayerMovement : MonoBehaviourPun
         {
             allowedToJump = true;
         }
-
-      //  if(collision.collider.tag == "CarriableResource")
-      //      collision.collider.GetComponent<PhotonView>().RequestOwnership();
      
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        triggerTransferOwner(collision);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        triggerTransferOwner(collision);
+    }
+
+    void triggerTransferOwner(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "CarriableResource")
+        {
+            CarriableResource cR = collision.gameObject.GetComponent<CarriableResource>();
+
+            if (cR.isCarried == false)
+                cR.PV.RequestOwnership();
+        }
     }
 }

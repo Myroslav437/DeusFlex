@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7462631823221735184}
   - component: {fileID: 288073822809526354}
   - component: {fileID: 7553181564595503071}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: woodCarriable
   m_TagString: CarriableResource
   m_Icon: {fileID: 0}

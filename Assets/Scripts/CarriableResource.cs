@@ -19,6 +19,9 @@ public class CarriableResource : MonoBehaviour //, IPunObservable
     Rigidbody2D rigidbody2;
 
     public resourceType resource;
+    public bool isCarried = false;
+
+    public PhotonView PV;
 
     [SerializeField]
     float resourceAmout = 50f;
@@ -26,6 +29,7 @@ public class CarriableResource : MonoBehaviour //, IPunObservable
     void Start()
     {
         rigidbody2 = GetComponent<Rigidbody2D>();
+        PV = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame

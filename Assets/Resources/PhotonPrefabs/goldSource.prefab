@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2664160152779148057}
   - component: {fileID: 7545597353489454007}
   - component: {fileID: 4830835075392656076}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: goldSource
   m_TagString: ResourceSource
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 4830835075392656076}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

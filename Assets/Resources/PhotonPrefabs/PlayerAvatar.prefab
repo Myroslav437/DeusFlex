@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8342897855164686057}
   - component: {fileID: 512101955104672241}
   - component: {fileID: 2174246898054741490}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TextLable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 6533396416939944893}
   - component: {fileID: 6533396416939944894}
   - component: {fileID: 1911081592543163150}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,8 @@ GameObject:
   - component: {fileID: 1454400820359783114}
   - component: {fileID: 7481591657735590545}
   - component: {fileID: -4173660612797023252}
-  m_Layer: 0
+  - component: {fileID: 6265994494569786100}
+  m_Layer: 7
   m_Name: PlayerAvatar
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -346,8 +347,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6533396417521525828}
   - {fileID: -4173660612797023252}
-  - {fileID: 0}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -370,7 +369,7 @@ MonoBehaviour:
   jumpResetTime: 1
   resourcesMask:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 776
   movementSpeed: 50000
   jumpForce: 1500
   allowedToJump: 1
@@ -438,7 +437,7 @@ MonoBehaviour:
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 1
-  m_TeleportIfDistanceGreaterThan: 3
+  m_TeleportIfDistanceGreaterThan: 2
 --- !u!232 &3433050966276391934
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -512,6 +511,22 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
+--- !u!58 &6265994494569786100
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6533396417521525827}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3
 --- !u!1 &6533396417668866353
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +536,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6533396417668866354}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396417817365511}
   - component: {fileID: 6533396417817365512}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -636,7 +651,7 @@ GameObject:
   - component: {fileID: 6533396418070670064}
   - component: {fileID: 6533396418070670066}
   - component: {fileID: 6533396418070670065}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,7 +733,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396418598246055}
   - component: {fileID: 6533396418598246056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,7 +818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396418735787271}
   - component: {fileID: 6533396418735787272}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -886,7 +901,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6533396418817610934}
   - component: {fileID: 6533396418817610935}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Leg (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -969,7 +984,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3326595684728351420}
   - component: {fileID: 5161991997383109103}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TextBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}

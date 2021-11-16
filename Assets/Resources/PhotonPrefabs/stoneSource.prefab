@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7624613045700996348}
   - component: {fileID: 2711086095825253458}
   - component: {fileID: 7841029154300327085}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: stoneSource
   m_TagString: ResourceSource
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 7841029154300327085}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
