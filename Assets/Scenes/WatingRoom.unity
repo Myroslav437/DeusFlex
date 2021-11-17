@@ -2998,7 +2998,7 @@ MonoBehaviour:
   blueSquare: {fileID: 1575876821}
   multiplayerScene: 2
   menuScene: 0
-  roomSize: 6
+  roomSize: 4
   timeToWait: 5
 --- !u!114 &852640313
 MonoBehaviour:
@@ -9586,7 +9586,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6e2286407a1594e4ca601c593c13d053, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
