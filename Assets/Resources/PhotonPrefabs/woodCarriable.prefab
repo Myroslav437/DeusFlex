@@ -187,4 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: 0
+  isCarried: 0
+  PV: {fileID: 0}
   resourceAmout: 25
