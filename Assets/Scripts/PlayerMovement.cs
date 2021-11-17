@@ -57,9 +57,10 @@ public class PlayerMovement : MonoBehaviourPun
         }
         if (Input.GetMouseButtonDown(0) && PV.IsMine)
         {
-            
-            PV.RPC("attack", RpcTarget.AllViaServer, PV.ViewID);
+
+            //PV.RPC("attack", RpcTarget.AllViaServer, PV.ViewID);
             // photonView.RPC("attack", RpcTarget.MasterClient);
+            attack();
         }
         if (PV.IsMine) {
             if (Input.GetKeyDown(KeyCode.A))
@@ -127,33 +128,30 @@ public class PlayerMovement : MonoBehaviourPun
 
     }
 
-    [PunRPC]
-    void attack(int PID)
+
+    void attack()
     {
-        PlayerMovement attackingPlayerMovement = PhotonHelper.FindObjectViaPVID(PID).GetComponent<PlayerMovement>();
+        //PlayerMovement attackingPlayerMovement = PhotonHelper.FindObjectViaPVID(PV.ViewID).GetComponent<PlayerMovement>();
 
         Vector3 mousePos = playerCam.ScreenToWorldPoint(Input.mousePosition);
 
 
         if (Physics2D.OverlapCircle(mousePos, 0.5f, resourcesMask) != null)
         {
-            Collider2D localHitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
-            GameObject hitObject = PhotonHelper.FindObjectViaPVID(localHitObject.GetComponent<PhotonView>().ViewID);
+            Collider2D hitObject = Physics2D.OverlapCircle(mousePos, 1, resourcesMask);
 
-            damageResource(hitObject, attackingPlayerMovement);
 
-            carryResource(hitObject, attackingPlayerMovement);
+            damageResource(hitObject.gameObject, this);
 
+            if (hitObject.tag.Equals("CarriableResource"))
+            {
+                hitObject.GetComponent<PhotonView>().RequestOwnership();
+                PV.RPC("carryResource", RpcTarget.AllBufferedViaServer, PV.ViewID, hitObject.GetComponent<PhotonView>().ViewID);
+            }
         }
         else
         {
-            if (carriedResRef != null)
-            {
-                attackingPlayerMovement.carriedResRef.GetComponent<CarriableResource>().isCarried = false;
-                attackingPlayerMovement.carriableJoint.connectedBody = null;
-                Debug.Log("Freed carriable flag.");
-            }
-            attackingPlayerMovement.carriableJoint.enabled = false;
+            PV.RPC("stopCarryingResource", RpcTarget.AllBufferedViaServer, PV.ViewID);
         }
     }
 
@@ -163,23 +161,40 @@ public class PlayerMovement : MonoBehaviourPun
             resource.GetComponent<ResourceSource>().takeDamage(attackingPlayer.playerDamage);
     }
 
-    void carryResource(GameObject ress,PlayerMovement attackingPlayer)
+    [PunRPC]
+    void carryResource(int playerPID,int resourcePID)
     {
-        if (ress.tag.Equals("CarriableResource"))
-        {
-            
-            CarriableResource cR = ress.GetComponent<CarriableResource>();
-            cR.PV.RequestOwnership();
+        GameObject resRef = PhotonHelper.FindObjectViaPVID(resourcePID);
+        PlayerMovement playRef = PhotonHelper.FindObjectViaPVID(playerPID).GetComponent<PlayerMovement>();
+
+            CarriableResource cR = resRef.GetComponent<CarriableResource>();
+
             cR.isCarried = true;
 
-            attackingPlayer.carriableJoint.enabled = true;
-            attackingPlayer.carriedResRef = ress;
-            
-            attackingPlayer.carriableJoint.connectedBody = ress.GetComponent<Rigidbody2D>();
-        }
+            playRef.carriableJoint.enabled = true;
+            playRef.carriedResRef = resRef;
+
+            playRef.carriableJoint.connectedBody = resRef.GetComponent<Rigidbody2D>();
+
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    [PunRPC]
+    void stopCarryingResource(int playerPID)
+    {
+
+        PlayerMovement playRef = PhotonHelper.FindObjectViaPVID(playerPID).GetComponent<PlayerMovement>();
+
+        if (playRef.carriedResRef != null)
+        {
+            playRef.carriedResRef.GetComponent<CarriableResource>().isCarried = false;
+            playRef.carriableJoint.connectedBody = null;
+            Debug.Log("Freed carriable flag.");
+        }
+
+            playRef.carriableJoint.enabled = false;
+    }
+
+     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "CarriableResource" ||
             collision.collider.tag == "Ground" ||

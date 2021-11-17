@@ -63,6 +63,8 @@ MonoBehaviour:
   - RPC_MakeRedWinner
   - attack
   - PRC_FlipCharacter
+  - carryResource
+  - stopCarryingResource
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
