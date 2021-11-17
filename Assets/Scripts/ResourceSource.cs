@@ -19,6 +19,8 @@ public class ResourceSource : MonoBehaviourPun,IPunObservable
     public string resourceToSpawnName;
     public string resourceLeftoverName;
 
+    //SpriteRenderer sR;
+
     void Start()
     {
         resourceHealth = maxResourceHealth;
@@ -34,6 +36,10 @@ public class ResourceSource : MonoBehaviourPun,IPunObservable
     {
         photonView.RequestOwnership();
 
+        //shake();
+
+        changeColor();
+
         resourceHealth -= damageAmout;
 
         Debug.Log("Remaining health: "+resourceHealth);
@@ -42,6 +48,7 @@ public class ResourceSource : MonoBehaviourPun,IPunObservable
         {
             destroySelf();
         }
+       
     }
 
     void destroySelf()
@@ -58,6 +65,36 @@ public class ResourceSource : MonoBehaviourPun,IPunObservable
         PhotonNetwork.Destroy(this.gameObject);
     }
 
+    IEnumerator changeColor()
+    {
+        SpriteRenderer sR = GetComponent<SpriteRenderer>();
+        Color origin = sR.color;
+        Color change = new Color(origin.r+128,origin.g + 128, origin.b + 128);
+
+        sR.color = change;
+
+        yield return new WaitForSeconds(2f);
+
+        sR.color = origin;
+    }
+
+    IEnumerator shake()
+    {
+        float offset = 1f;
+        float dec = 0.02f;
+        Vector3 origin = transform.position;
+
+        for(int i = 0; i < 20; i++)
+        {
+            transform.Translate((new Vector3(transform.position.x + offset, origin.y,origin.z))); 
+            offset -= dec;
+            offset *= -1;
+            dec *= -1;
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        transform.position = origin;
+    }
 
     void spawnResources(string resourceType, int num)
     { 

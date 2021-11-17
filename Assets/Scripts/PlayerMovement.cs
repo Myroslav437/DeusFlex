@@ -146,11 +146,13 @@ public class PlayerMovement : MonoBehaviourPun
             if (hitObject.tag.Equals("CarriableResource"))
             {
                 hitObject.GetComponent<PhotonView>().RequestOwnership();
+                hitObject.GetComponent<CarriableResource>().setSelectedSprite();
                 PV.RPC("carryResource", RpcTarget.AllBufferedViaServer, PV.ViewID, hitObject.GetComponent<PhotonView>().ViewID);
             }
         }
         else
         {
+            carriedResRef.GetComponent<CarriableResource>().setOrdinarySprite();
             PV.RPC("stopCarryingResource", RpcTarget.AllBufferedViaServer, PV.ViewID);
         }
     }

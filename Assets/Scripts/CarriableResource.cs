@@ -22,14 +22,18 @@ public class CarriableResource : MonoBehaviour //, IPunObservable
     public bool isCarried = false;
 
     public PhotonView PV;
+    public Sprite ordinary;
+    public Sprite selected;
 
-    [SerializeField]
-    float resourceAmout = 50f;
+    SpriteRenderer sR;
+    
+    public float resourceAmout = 50f;
 
     void Start()
     {
         rigidbody2 = GetComponent<Rigidbody2D>();
         PV = GetComponent<PhotonView>();
+        sR = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -47,23 +51,15 @@ public class CarriableResource : MonoBehaviour //, IPunObservable
         return resourceAmout;
     }
 
-    // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    // {
-    //     if (stream.IsWriting)
-    //     {
-    //         stream.SendNext(rigidbody2.position);
-    //         stream.SendNext(rigidbody2.velocity);
-    //     }
-    //
-    //     if (stream.IsReading)
-    //     {
-    //         rigidbody2.position = (Vector2) stream.ReceiveNext();
-    //         rigidbody2.velocity = (Vector3) stream.ReceiveNext();
-    //
-    //         float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.timestamp));
-    //         rigidbody2.position += rigidbody2.velocity * lag;
-    //     }
-    // }
+    public void setOrdinarySprite()
+    {
+        sR.sprite = ordinary;
+    }
+
+    public void setSelectedSprite()
+    {
+        sR.sprite = selected;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

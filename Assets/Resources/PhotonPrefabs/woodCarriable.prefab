@@ -189,4 +189,6 @@ MonoBehaviour:
   resource: 0
   isCarried: 0
   PV: {fileID: 0}
+  ordinary: {fileID: 21300000, guid: 15f76574f38234f4ea0935b5e28d2f2f, type: 3}
+  selected: {fileID: 21300000, guid: f37f3f783e6807d4aad7949407befdff, type: 3}
   resourceAmout: 25

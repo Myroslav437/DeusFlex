@@ -177,4 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: 3
+  isCarried: 0
+  PV: {fileID: 0}
+  ordinary: {fileID: 21300000, guid: 716bfc7a94e665b44aad97af6e2681ac, type: 3}
+  selected: {fileID: 21300000, guid: 194c758065512d14cade05940bdb3e33, type: 3}
   resourceAmout: 1
