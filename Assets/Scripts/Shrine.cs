@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Shrine : MonoBehaviour, IPunObservable
 {
+    public TextMesh resourcesLabel;
 
     double[,] resourcesNeeded = { { 200, 0, 0, 0 }, { 400, 200, 0, 0 }, { 800, 400, 50, 0 }, { 1600, 800, 100, 5 } };
     double[] currentResources = {0,0,0,0};
@@ -20,7 +21,9 @@ public class Shrine : MonoBehaviour, IPunObservable
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];    
+        GetComponent<SpriteRenderer>().sprite = levelSprites[currentLevel];
+
+        PV.RPC("RPC_UpdateResourcesNeededText", RpcTarget.AllBufferedViaServer, PV.ViewID);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -51,6 +54,22 @@ public class Shrine : MonoBehaviour, IPunObservable
         currentResources[(int) carriadge.getResType()] += carriadge.getResAmount();
         Debug.Log("Resources: w-" + currentResources[0] + " s-" + currentResources[1] + " g-"+ currentResources[2] + " e-"+ currentResources[3]);
         Debug.Log("Current requirement: w-" + resourcesNeeded[currentLevel,0] + " s-" + resourcesNeeded[currentLevel, 1] + " g-" + resourcesNeeded[currentLevel, 2] + " e-" + resourcesNeeded[currentLevel, 3]);
+
+        PV.RPC("RPC_UpdateResourcesNeededText", RpcTarget.AllBufferedViaServer, PV.ViewID);
+    }
+
+    [PunRPC]
+    void RPC_UpdateResourcesNeededText(int PVID) {
+        GameObject go = PhotonHelper.FindObjectViaPVID(PVID);
+        Shrine sh = go.GetComponent<Shrine>();
+
+        string resNeededText = "Resurses To Next Level" + System.Environment.NewLine;
+        resNeededText += "    Wood:    " +  ((int)sh.currentResources[0]).ToString()  +" / " + ((int)sh.resourcesNeeded[sh.currentLevel, 0]).ToString() + System.Environment.NewLine;
+        resNeededText += "    Stone:   " +  ((int)sh.currentResources[1]).ToString() + " / " + ((int)sh.resourcesNeeded[sh.currentLevel, 1]).ToString() + System.Environment.NewLine;
+        resNeededText += "    Gold:     " +  ((int)sh.currentResources[2]).ToString() + " / " + ((int)sh.resourcesNeeded[sh.currentLevel, 2]).ToString() + System.Environment.NewLine;
+        resNeededText += "    Emerald: " +  ((int)sh.currentResources[3]).ToString() + " / " + ((int)sh.resourcesNeeded[sh.currentLevel, 3]).ToString();
+
+        sh.resourcesLabel.text = resNeededText;
     }
 
     void TryTolevelUp()

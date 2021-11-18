@@ -65,6 +65,8 @@ MonoBehaviour:
   - PRC_FlipCharacter
   - carryResource
   - stopCarryingResource
+  - SetResourcesNeededText
+  - RPC_UpdateResourcesNeededText
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
